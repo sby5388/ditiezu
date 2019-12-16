@@ -1,7 +1,9 @@
 package com.by5388.ditiezu.detail;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -12,30 +14,40 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
+import android.widget.Toast;
+
+import com.by5388.ditiezu.R;
+import com.by5388.ditiezu.bean.ChooseItem;
+import com.by5388.ditiezu.bean.PageData;
+import com.by5388.ditiezu.databinding.FragmentPageDetailBinding;
+import com.by5388.ditiezu.publish.PublishActivity;
+import com.by5388.ditiezu.temp.GetListByUri;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-
-import com.by5388.ditiezu.R;
-import com.by5388.ditiezu.databinding.FragmentPageDetailBinding;
-import com.by5388.ditiezu.main.PageData;
-import com.by5388.ditiezu.publish.PublishActivity;
-
-import java.util.Objects;
 
 /**
  * @author by5388  on 2019/12/15.
  */
 public class DetailFragment extends Fragment {
-    public static final String TAG = "DetailFragment";
+    private static final String TAG = "DetailFragment";
     private static final String DATA_KEY = "main_data";
     private static final String STRING_TITLE = "title";
     private static final String INTEGER_ID = "id";
 
     private PageData mPageData;
     private WebView mWebView;
+    private MenuItem mMenuItemClassify;
+    private Handler mHandler = new Handler();
+    private List<ChooseItem> mChooseItems = new ArrayList<>();
 
     public static DetailFragment newInstance(PageData data) {
         if (data == null) {
@@ -61,6 +73,17 @@ public class DetailFragment extends Fragment {
         }
         mPageData = new PageData(arguments.getInt(INTEGER_ID), arguments.getString(STRING_TITLE));
         Objects.requireNonNull(getActivity()).setTitle(mPageData.mName);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final GetListByUri getListByUri = new GetListByUri(mPageData.mIndex);
+                getListByUri.getData();
+                final List<ChooseItem> chooseItems = getListByUri.getChooseItems();
+                // TODO: 2019/12/16 可能造成内存泄露
+                updateItem(chooseItems);
+
+            }
+        }).start();
 
     }
 
@@ -69,6 +92,8 @@ public class DetailFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_detail, menu);
+        mMenuItemClassify = menu.findItem(R.id.menu_classify);
+        mMenuItemClassify.setEnabled(false);
     }
 
     @Override
@@ -82,6 +107,7 @@ public class DetailFragment extends Fragment {
                 context.startActivity(PublishActivity.newIntentPublish(context, mPageData.mIndex));
                 return true;
             case R.id.menu_classify:
+                showDialogFilter();
                 break;
             default:
                 break;
@@ -110,6 +136,7 @@ public class DetailFragment extends Fragment {
         return binding.getRoot();
     }
 
+
     public boolean isKeyDown(int keyCode) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (mWebView == null) {
@@ -122,6 +149,55 @@ public class DetailFragment extends Fragment {
         }
 
         return false;
+    }
+
+    private void updateItem(final List<ChooseItem> chooseItems) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mMenuItemClassify == null) {
+                    return;
+                }
+                Log.d(TAG, "run: count = " + chooseItems.size());
+                mMenuItemClassify.setEnabled(true);
+                mChooseItems = chooseItems;
+            }
+        });
+
+    }
+
+    private void showDialogFilter() {
+        final int size = mChooseItems.size();
+        if (size == 0) {
+            return;
+        }
+        final CharSequence[] items = new CharSequence[size];
+        for (int i = 0; i < size; i++) {
+            items[i] = mChooseItems.get(i).mName;
+        }
+        new AlertDialog.Builder(Objects.requireNonNull(getContext()))
+                .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        final CharSequence item = items[position];
+                        Toast.makeText(getContext(), item.toString(), Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onItemSelected: item = " + item);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                })
+                .setCancelable(true)
+                .create()
+                .show();
+
     }
 
 

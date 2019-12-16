@@ -1,4 +1,4 @@
-package com.by5388.ditiezu.main;
+package com.by5388.ditiezu.bean;
 
 import java.util.Locale;
 

@@ -2,6 +2,7 @@ package com.by5388.ditiezu.main;
 
 import android.content.Context;
 
+import com.by5388.ditiezu.bean.PageData;
 import com.by5388.ditiezu.detail.DetailActivity;
 
 /**

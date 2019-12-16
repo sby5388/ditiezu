@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.by5388.ditiezu.SingleFragmentActivity;
-import com.by5388.ditiezu.main.PageData;
+import com.by5388.ditiezu.bean.PageData;
 
 /**
  * @author by5388  on 2019/12/15.

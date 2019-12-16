@@ -3,9 +3,9 @@ package com.by5388.ditiezu.publish;
 import android.content.Context;
 import android.content.Intent;
 
-import androidx.fragment.app.Fragment;
-
 import com.by5388.ditiezu.SingleFragmentActivity;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * @author by5388  on 2019/12/15.
@@ -22,6 +22,11 @@ public class PublishActivity extends SingleFragmentActivity {
         final int beijingIndex = 7;
         final int actionType = getIntent().getIntExtra(TYPE_ACTION, TYPE_PUBLISH);
         final int pageId = getIntent().getIntExtra(PAGE_ID, beijingIndex);
+        if (actionType == TYPE_PUBLISH) {
+            return PublishFragment.newInstance(pageId);
+        } else if (actionType == TYPE_VOTE) {
+            return VoteFragment.newInstance();
+        }
         return PublishFragment.newInstance(pageId);
     }
 

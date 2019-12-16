@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.by5388.ditiezu.R;
+import com.by5388.ditiezu.bean.DataTools;
+import com.by5388.ditiezu.bean.PageData;
 import com.by5388.ditiezu.databinding.ItemPageBinding;
 
 import java.util.List;

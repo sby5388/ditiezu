@@ -1,4 +1,6 @@
-package com.by5388.ditiezu.main;
+package com.by5388.ditiezu.bean;
+
+import com.by5388.ditiezu.bean.PageData;
 
 import java.util.ArrayList;
 import java.util.List;
