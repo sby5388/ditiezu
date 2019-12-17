@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -33,20 +35,42 @@ public class JsoupDitiezuMainPage {
 //        final Document parse = Jsoup.parse(url, timeoutMillis);
         final Document parse = Jsoup.connect(mUrl).userAgent("iPhone").get();
         parse.charset(Charset.forName("utf-8"));
-        System.out.println(parse.toString());
+//        System.out.println(parse.toString());
         final Elements topElements = parse.select("div[class=close]")
                 .select("div[class=content]")
                 .select("div[class=wp]")
                 .select("div[class=ct]");
-        final Elements allList = topElements.select("ul[id=alist]");
-        System.out.println(allList.size());
+
+
+        final Elements selectItems = topElements.select("div[class=thtyss]").select("a");
+
+        System.out.println(selectItems.toString());
+        System.out.println(selectItems.size());
+        final List<MenuItem> menuItems = new ArrayList<>();
+        for (Element item : selectItems) {
+//            System.out.println(item);
+            final String name = item.text();
+            final String path = item.attr("href");
+            menuItems.add(new MenuItem(name, path));
+        }
+
+
+        for (MenuItem item : menuItems) {
+            System.out.println(item);
+        }
+        if (true) {
+            // TODO: 2019/12/17 test Item
+//            return;
+        }
+
+        final Elements allList = topElements.select("ul[id=alist]").select("li");
+//        System.out.println(allList.size());
         for (Element element : allList) {
             final String title = element.text();
             final String itemUrl = element.select("a").attr("href");
             System.out.println(title);
             System.out.println(itemUrl);
         }
-
 
     }
 

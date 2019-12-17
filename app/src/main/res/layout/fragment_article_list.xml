@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="fragment"
-            type="com.by5388.ditiezu.main.PageListFragment" />
+            type="com.by5388.ditiezu.detail.ArticleListFragment" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rootView"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -20,7 +20,6 @@
             android:layout_height="match_parent"
             app:adapter="@{fragment.adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

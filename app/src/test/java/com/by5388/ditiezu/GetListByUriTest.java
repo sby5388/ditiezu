@@ -1,4 +1,6 @@
-package com.by5388.ditiezu.temp;
+package com.by5388.ditiezu;
+
+import com.by5388.ditiezu.temp.GetListByUri;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,11 +14,11 @@ public class GetListByUriTest {
 
     @Before
     public void setUp() throws Exception {
-        mSubject = Mockito.mock(GetListByUri.class);
+        mSubject = new GetListByUri(46);
     }
 
     @Test
     public void getData() {
-        mSubject.getData(46);
+        mSubject.getData();
     }
 }
