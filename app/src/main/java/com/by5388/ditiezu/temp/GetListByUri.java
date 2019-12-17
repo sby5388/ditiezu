@@ -53,6 +53,7 @@ public class GetListByUri {
     }
 
     public String getData() {
+
         final StringBuilder stringBuilder = new StringBuilder();
         final Uri uri = getUri(mId);
         final String urlString = uri.toString();
@@ -94,7 +95,7 @@ public class GetListByUri {
             return;
         }
         try {
-            final ChooseItem item = new ChooseItem(Integer.parseInt(split[0]), split[1]);
+            final ChooseItem item = new ChooseItem(split[0], split[1]);
             mChooseItems.add(item);
         } catch (NumberFormatException e) {
             e.printStackTrace();

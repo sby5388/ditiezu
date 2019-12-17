@@ -17,6 +17,12 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+
 import com.by5388.ditiezu.R;
 import com.by5388.ditiezu.bean.ChooseItem;
 import com.by5388.ditiezu.bean.PageData;
@@ -27,12 +33,6 @@ import com.by5388.ditiezu.temp.GetListByUri;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 /**
  * @author by5388  on 2019/12/15.
@@ -101,7 +101,8 @@ public class DetailFragment extends Fragment {
         final int itemId = item.getItemId();
         switch (itemId) {
             case R.id.menu_search:
-                break;
+                startActivity(ArticleListActivity.newIntent(getContext(), mPageData));
+                return true;
             case R.id.menu_publish:
                 final Context context = Objects.requireNonNull(getContext());
                 context.startActivity(PublishActivity.newIntentPublish(context, mPageData.mIndex));

@@ -35,12 +35,38 @@ public class JsoupDitiezuMainPage {
 //        final Document parse = Jsoup.parse(url, timeoutMillis);
         final Document parse = Jsoup.connect(mUrl).userAgent("iPhone").get();
         parse.charset(Charset.forName("utf-8"));
-//        System.out.println(parse.toString());
+        System.out.println(parse.toString());
         final Elements topElements = parse.select("div[class=close]")
                 .select("div[class=content]")
                 .select("div[class=wp]")
                 .select("div[class=ct]");
 
+
+        final Elements allList = topElements.select("ul[id=alist]").select("li");
+//        System.out.println(allList.size());
+        for (Element element : allList) {
+            final String title0 = element.select("h1").text();
+            final String title = element.text();
+            final String itemUrl = element.select("a").attr("href");
+            final String comments = element.select("span[class=replies]").text();
+            //标题
+            System.out.println(title0);
+            //回复数量
+            System.out.println(comments);
+            //链接
+            System.out.println(itemUrl);
+            final String trim = title.replace(title0, "")
+                    .replace(comments, "").trim();
+            System.out.println(trim);
+            final String[] split = trim.split("-");
+            final int splitIndex = split.length - 3;
+
+        }
+
+        if (true) {
+            // TODO: 2019/12/17 test Item
+            return;
+        }
 
         final Elements selectItems = topElements.select("div[class=thtyss]").select("a");
 
@@ -58,19 +84,7 @@ public class JsoupDitiezuMainPage {
         for (MenuItem item : menuItems) {
             System.out.println(item);
         }
-        if (true) {
-            // TODO: 2019/12/17 test Item
-//            return;
-        }
 
-        final Elements allList = topElements.select("ul[id=alist]").select("li");
-//        System.out.println(allList.size());
-        for (Element element : allList) {
-            final String title = element.text();
-            final String itemUrl = element.select("a").attr("href");
-            System.out.println(title);
-            System.out.println(itemUrl);
-        }
 
     }
 

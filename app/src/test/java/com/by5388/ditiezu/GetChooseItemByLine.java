@@ -8,7 +8,7 @@ import org.junit.Assert;
  * @author Administrator  on 2019/12/16.
  */
 public class GetChooseItemByLine {
-    static final ChooseItem sItem = new ChooseItem(48, "1号线");
+    static final ChooseItem sItem = new ChooseItem(String.valueOf(48), "1号线");
     private static final String choose_item_start = " <a href=\"forum.php?mod=forumdisplay&amp;fid=8&amp;filter=typeid&amp;typeid=";
     private static final String choose_item_end = "&mobile=yes\" ";
 
@@ -21,7 +21,7 @@ public class GetChooseItemByLine {
         final String[] split = replace.split(">");
         if (split.length == 2) {
             try {
-                return new ChooseItem(Integer.parseInt(split[0]), split[1]);
+                return new ChooseItem(split[0], split[1]);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -36,7 +36,7 @@ public class GetChooseItemByLine {
             throw new RuntimeException();
         }
         Assert.assertEquals(chooseItem.mName, sItem.mName);
-        Assert.assertEquals(chooseItem.mTypeId, sItem.mTypeId);
+        Assert.assertEquals(chooseItem.mUrl, sItem.mUrl);
     }
 
 }

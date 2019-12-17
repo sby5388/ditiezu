@@ -7,15 +7,15 @@ public class ArticleBean {
     /**
      * String-url
      */
-    public final int mArticleId;
+    public final String mUrl;
     public final String mTitle;
     public final String mAuthor;
-    public final int mComment;
+    public final String mComment;
     public final String mDate;
     public int mType;
 
-    public ArticleBean(int articleId, String title, String author, String date, int comment) {
-        mArticleId = articleId;
+    public ArticleBean(String url, String title, String author, String date, String comment) {
+        mUrl = url;
         mTitle = title;
         mAuthor = author;
         mComment = comment;
