@@ -39,5 +39,7 @@ dependencies {
     androidTestImplementation 'org.mockito:mockito-android:2.25.0'
 //    todo 20191216 参考其他应用的解析库
     implementation 'org.jsoup:jsoup:1.12.1'
+    //todo 20191218 support-design
+    implementation 'com.google.android.material:material:1.0.0'
 
 }

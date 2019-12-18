@@ -28,6 +28,10 @@
         <activity android:name=".detail.DetailActivity" />
         <activity android:name=".publish.PublishActivity" />
         <activity android:name=".detail.ArticleListActivity" />
+        <activity android:name=".detail.ArticleActivity" />
+        <activity
+            android:name=".me.MeActivity"
+            android:label="@string/me" />
     </application>
 
 </manifest>

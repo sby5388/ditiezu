@@ -1,8 +1,8 @@
 package com.by5388.ditiezu.detail;
 
-import android.widget.Toast;
+import android.content.Context;
+import android.view.View;
 
-import com.by5388.ditiezu.DitiezuApp;
 import com.by5388.ditiezu.bean.ArticleBean;
 
 /**
@@ -32,10 +32,9 @@ public class ArticleViewModel {
         return mArticleBean.mDate;
     }
 
-    public void onClick() {
-        // TODO: 2019/12/17
-        final DitiezuApp app = DitiezuApp.getInstance();
-        Toast.makeText(app, mArticleBean.mTitle, Toast.LENGTH_SHORT).show();
+    public void onClick(View view) {
+        final Context context = view.getContext();
+        context.startActivity(ArticleActivity.newIntent(context, mArticleBean.mUrl));
     }
 
 }

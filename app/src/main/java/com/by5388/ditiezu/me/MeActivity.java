@@ -1,4 +1,4 @@
-package com.by5388.ditiezu.main;
+package com.by5388.ditiezu.me;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,15 +8,15 @@ import com.by5388.ditiezu.SingleFragmentActivity;
 import androidx.fragment.app.Fragment;
 
 /**
- * @author Administrator
+ * @author Administrator  on 2019/12/18.
  */
-public class MainActivity extends SingleFragmentActivity {
+public class MeActivity extends SingleFragmentActivity {
     @Override
     public Fragment createFragment() {
-        return PageListFragment.newInstance();
+        return MeFragment.newInstance();
     }
 
     public static Intent newIntent(Context context) {
-        return new Intent(context, MainActivity.class);
+        return new Intent(context, MeActivity.class);
     }
 }

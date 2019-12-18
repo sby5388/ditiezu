@@ -12,16 +12,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 import com.by5388.ditiezu.R;
 import com.by5388.ditiezu.bean.ChooseItem;
@@ -33,6 +30,13 @@ import com.by5388.ditiezu.temp.GetListByUri;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * @author by5388  on 2019/12/15.
@@ -122,7 +126,7 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final FragmentPageDetailBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_page_detail, container, false);
-        binding.setFragment(this);
+//        binding.setFragment(this);
         mWebView = binding.webView;
         mWebView.loadUrl(mPageData.getUrl());
         mWebView.setWebViewClient(new WebViewClient() {
@@ -132,7 +136,29 @@ public class DetailFragment extends Fragment {
                 return true;
             }
 
+            @Nullable
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                final String message = request.getUrl().toString();
+                //TODO 拦截谷歌广告、百度广告
+                // FIXME: 2019/12/18 页面底部的广告未拦截
+                if (message.contains("google") || message.contains("baidu")) {
+                    return new WebResourceResponse(null, null, null);
+                }
+                Log.e(TAG, "shouldInterceptRequest: url = " + message);
+                return super.shouldInterceptRequest(view, request);
+            }
 
+        });
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                final FragmentActivity activity = getActivity();
+                if (activity != null) {
+                    activity.setTitle(title);
+                }
+            }
         });
         return binding.getRoot();
     }

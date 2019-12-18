@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- TODO 使用PopMenu 会更好 -->
+
+    <item
+        android:id="@+id/menu_index"
+        android:title="@string/index"
+        app:showAsAction="ifRoom"
+        tools:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_me"
+        android:title="@string/me"
+        app:showAsAction="ifRoom"
+        tools:showAsAction="never" />
+
+</menu>

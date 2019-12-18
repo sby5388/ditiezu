@@ -6,12 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-
 import com.by5388.ditiezu.DitiezuApp;
 import com.by5388.ditiezu.R;
 import com.by5388.ditiezu.databinding.FragmentArticleListBinding;
@@ -19,14 +13,22 @@ import com.by5388.ditiezu.databinding.FragmentArticleListBinding;
 import java.io.IOException;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+
 /**
  * @author Administrator  on 2019/12/17.
  */
-public class ArticleListFragment extends Fragment {
+public class ArticleListFragment extends Fragment implements ArticleAdapter.PageChangCallback {
     private static final String INTEGER_INDEX = "index";
     private static final int DEFAULT_INDEX = 46;
     private int mIndex = DEFAULT_INDEX;
     private ArticleAdapter mAdapter;
+    private ArticleListTool mTool;
+    private FragmentArticleListBinding mBinding;
     private Handler mHandler = new Handler();
 
     public static ArticleListFragment newInstance(final int index) {
@@ -37,6 +39,7 @@ public class ArticleListFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,8 @@ public class ArticleListFragment extends Fragment {
             mIndex = arguments.getInt(INTEGER_INDEX, DEFAULT_INDEX);
         }
         mAdapter = new ArticleAdapter();
+        mAdapter.setCallback(this);
+        mTool = new ArticleListTool(mIndex);
 
         final DitiezuApp app = DitiezuApp.getInstance();
         app.getExecutor().execute(mRunnableGetData);
@@ -52,19 +57,27 @@ public class ArticleListFragment extends Fragment {
     }
 
 
+    /**
+     * run on workerThread
+     */
     private Runnable mRunnableGetData = new Runnable() {
         @Override
         public void run() {
-            final ArticleListTool tool = new ArticleListTool(mIndex);
             try {
-                tool.loadData();
+                mTool.loadData();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //run on uiThread
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter.setList(tool.getArticleBeans());
+                    if (mAdapter == null) {
+                        return;
+                    }
+                    mAdapter.setFirstPage(mTool.isFirstPage());
+                    mAdapter.setList(mTool.getArticleBeans());
+                    mBinding.recyclerView.scrollToPosition(0);
                 }
             });
         }
@@ -73,13 +86,37 @@ public class ArticleListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final FragmentArticleListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_article_list, container, false);
-        binding.setFragment(this);
-        binding.recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
-        return binding.getRoot();
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_article_list, container, false);
+        mBinding.setFragment(this);
+        mBinding.recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
+        return mBinding.getRoot();
     }
 
     public ArticleAdapter getAdapter() {
         return mAdapter;
+    }
+
+    @Override
+    public void changePrePage() {
+        if (mTool.enableLoadPrePage()) {
+            mAdapter.clear();
+            final DitiezuApp app = DitiezuApp.getInstance();
+            app.getExecutor().execute(mRunnableGetData);
+        }
+    }
+
+    @Override
+    public void changeNextPage() {
+        if (mTool.enableLoadNextPage()) {
+            mAdapter.clear();
+            final DitiezuApp app = DitiezuApp.getInstance();
+            app.getExecutor().execute(mRunnableGetData);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mTool = null;
     }
 }

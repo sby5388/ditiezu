@@ -30,9 +30,10 @@ public class JsoupDitiezuMainPage {
     }
 
     public void test() throws MalformedURLException, IOException {
-        final URL url = new URL(mUrl);
-        final int timeoutMillis = (int) TimeUnit.SECONDS.toMillis(5);
+//        final URL url = new URL(mUrl);
+//        final int timeoutMillis = (int) TimeUnit.SECONDS.toMillis(5);
 //        final Document parse = Jsoup.parse(url, timeoutMillis);
+
         final Document parse = Jsoup.connect(mUrl).userAgent("iPhone").get();
         parse.charset(Charset.forName("utf-8"));
         System.out.println(parse.toString());

@@ -17,7 +17,7 @@ public class DitiezuApp extends Application {
         super.onCreate();
         sInstance = this;
 //        StrictMode.enableDefaults();
-        mExecutor = Executors.newFixedThreadPool(2);
+        mExecutor = Executors.newFixedThreadPool(1);
     }
 
     public static DitiezuApp getInstance() {
