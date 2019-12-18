@@ -1,23 +1,26 @@
 package com.by5388.ditiezu.detail;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.by5388.ditiezu.DitiezuApp;
-import com.by5388.ditiezu.R;
-import com.by5388.ditiezu.databinding.FragmentArticleListBinding;
-
-import java.io.IOException;
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
+
+import com.by5388.ditiezu.DitiezuApp;
+import com.by5388.ditiezu.R;
+import com.by5388.ditiezu.databinding.FragmentArticleListBinding;
+import com.by5388.ditiezu.publish.PublishActivity;
+
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author Administrator  on 2019/12/17.
@@ -88,6 +91,14 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_article_list, container, false);
         mBinding.setFragment(this);
+        mBinding.fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Context context = view.getContext();
+                final Intent intent = PublishActivity.newIntentPublish(context, mIndex);
+                context.startActivity(intent);
+            }
+        });
         mBinding.recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
         return mBinding.getRoot();
     }

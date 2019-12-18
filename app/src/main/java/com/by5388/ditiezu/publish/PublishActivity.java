@@ -3,9 +3,10 @@ package com.by5388.ditiezu.publish;
 import android.content.Context;
 import android.content.Intent;
 
-import com.by5388.ditiezu.SingleFragmentActivity;
-
 import androidx.fragment.app.Fragment;
+
+import com.by5388.ditiezu.R;
+import com.by5388.ditiezu.SingleFragmentActivity;
 
 /**
  * @author by5388  on 2019/12/15.
@@ -16,6 +17,10 @@ public class PublishActivity extends SingleFragmentActivity {
     private static final String TYPE_ACTION = "type_action";
     private static final String PAGE_ID = "pageId";
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_publish;
+    }
 
     @Override
     public Fragment createFragment() {

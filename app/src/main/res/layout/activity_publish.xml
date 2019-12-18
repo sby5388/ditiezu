@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="2dp">
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/container_button"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
+
+    <RadioGroup
+        android:id="@+id/button_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/button_publish"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/button_publish"
+            android:textColor="@drawable/publish_button_text_color"
+            android:background="@drawable/publish_button_background_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发帖" />
+
+        <Button
+            android:id="@+id/button_vote"
+            style="@style/PublishButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="投票" />
+
+    </RadioGroup>
+
+    <!--    </LinearLayout>-->
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_group" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

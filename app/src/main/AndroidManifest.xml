@@ -13,6 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".temp.Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +31,9 @@
         </activity>
         <activity android:name=".detail.DetailActivity" />
         <activity android:name=".publish.PublishActivity" />
-        <activity android:name=".detail.ArticleListActivity" />
+        <activity
+            android:name=".detail.ArticleListActivity"
+            android:parentActivityName=".main.MainActivity" />
         <activity android:name=".detail.ArticleActivity" />
         <activity
             android:name=".me.MeActivity"

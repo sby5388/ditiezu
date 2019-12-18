@@ -56,7 +56,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageHolder> {
         }
 
         void bind(PageData mainData) {
-            mBinding.setPage(new PageViewModel(mainData, mContext));
+            mBinding.setPage(new PageViewModel(mainData));
             mBinding.executePendingBindings();
         }
     }

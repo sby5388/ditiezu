@@ -8,4 +8,12 @@
     <color name="colorPrimary_0">#008577</color>
     <color name="colorPrimaryDark_0">#00574B</color>
     <color name="colorAccent_0">#D81B60</color>
+
+    <color name="item_article_normal">#96CDCD</color>
+    <color name="item_article_pressed">#66CDAA</color>
+    <color name="button_text_publish_checked">#fefefe</color>
+    <color name="button_text_publish">#777</color>
+
+    <color name="button_background_publish_checked">#62A8DB</color>
+    <color name="button_background_publish">#e6e6e6</color>
 </resources>
