@@ -27,6 +27,7 @@ import java.util.Locale;
  *
  * @author Administrator  on 2019/12/16.
  */
+@Deprecated
 public class GetListByUri {
     public static final String BASE_URL = "http://www.ditiezu.com/";
     private static final String BASE_URL_0 = "http://www.ditiezu.com/forum.php?mod=forumdisplay&fid=%d&mobile=yes";

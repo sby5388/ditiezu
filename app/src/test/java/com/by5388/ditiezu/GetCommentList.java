@@ -52,6 +52,7 @@ public class GetCommentList {
             final String date = user.select("span[class=p_d1]").select("em").text();
             final String floor = user.select("span[class=p_nm y]").text();
             final Elements replay = element.select("div[class=vbc notb]");
+//            final Elements replay = element.select("div[class=vbc]");
             final String comment = replay.select("div[class=pbody mbn]").select("div[class=mes]").text();
             // TODO: 2019/12/18 链接获取不到
             System.out.println(replay);

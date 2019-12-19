@@ -11,4 +11,10 @@
     <string name="index">首页</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="action_settings">Settings</string>
+    <string name="select_theme">选择主题</string>
+    <string name="article_title">标题</string>
+    <string name="upload_image">上传图片</string>
+    <string name="submit_article">发表帖子</string>
+    <string name="vote_tip_0">最多可填写 50 个选项:</string>
+    <string name="vote_tip_1">(每行填写 1 个选项)</string>
 </resources>

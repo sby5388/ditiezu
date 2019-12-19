@@ -40,12 +40,10 @@ public class PublishActivity extends AppCompatActivity implements RadioGroup.OnC
         mRadioButtonVote = findViewById(R.id.button_vote);
         mRadioButtonPublish = findViewById(R.id.button_publish);
         mRadioGroup.setOnCheckedChangeListener(this);
-
         changeFragment(FRAGMENT_TAG_PUBLISH);
     }
 
     private void changeFragment(final String tag) {
-        Log.d(TAG, "changeFragment: tag = " + tag);
         final FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(tag);
         if (fragment == null) {
@@ -63,11 +61,17 @@ public class PublishActivity extends AppCompatActivity implements RadioGroup.OnC
         final int beijingIndex = 7;
         final int pageId = getIntent().getIntExtra(PAGE_ID, beijingIndex);
         if (FRAGMENT_TAG_PUBLISH.equals(tag)) {
+            if (mPublishFragment != null) {
+                return mPublishFragment;
+            }
             return PublishFragment.newInstance(pageId);
         } else if (FRAGMENT_TAG_VOTE.equals(tag)) {
-            return VoteFragment.newInstance();
+            if (mVoteFragment != null) {
+                return mVoteFragment;
+            }
+            return VoteFragment.newInstance(pageId);
         }
-        return PublishFragment.newInstance(pageId);
+        return null;
     }
 
     @Override
@@ -82,6 +86,9 @@ public class PublishActivity extends AppCompatActivity implements RadioGroup.OnC
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
+        if (mPublishFragment != null && mVoteFragment != null) {
+            return;
+        }
         if (fragment instanceof PublishFragment) {
             mPublishFragment = (PublishFragment) fragment;
         } else if (fragment instanceof VoteFragment) {
