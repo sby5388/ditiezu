@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/button_text_publish_checked" android:state_checked="true" />
-    <item android:drawable="@color/button_text_publish" android:state_checked="false" />
+    <!-- todo 20191219 对于字体的要使用android:color ，而不是 android:drawable -->
+    <item android:color="@color/button_text_publish_checked" android:state_checked="true" />
+    <item android:color="@color/button_text_publish" android:state_checked="false" />
 </selector>

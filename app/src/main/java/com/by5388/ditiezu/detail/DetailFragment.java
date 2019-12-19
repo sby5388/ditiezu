@@ -109,7 +109,7 @@ public class DetailFragment extends Fragment {
                 return true;
             case R.id.menu_publish:
                 final Context context = Objects.requireNonNull(getContext());
-                context.startActivity(PublishActivity.newIntentPublish(context, mPageData.mIndex));
+                context.startActivity(PublishActivity.newIntent(context, mPageData.mIndex));
                 return true;
             case R.id.menu_classify:
                 showDialogFilter();
@@ -145,7 +145,7 @@ public class DetailFragment extends Fragment {
                 if (message.contains("google") || message.contains("baidu")) {
                     return new WebResourceResponse(null, null, null);
                 }
-                Log.e(TAG, "shouldInterceptRequest: url = " + message);
+//                Log.e(TAG, "shouldInterceptRequest: url = " + message);
                 return super.shouldInterceptRequest(view, request);
             }
 

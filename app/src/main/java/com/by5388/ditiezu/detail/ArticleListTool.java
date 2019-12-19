@@ -1,5 +1,6 @@
 package com.by5388.ditiezu.detail;
 
+import android.net.TrafficStats;
 import android.util.Log;
 
 import com.by5388.ditiezu.bean.ArticleBean;
@@ -60,6 +61,7 @@ final class ArticleListTool {
     public void loadData() throws MalformedURLException, IOException {
         mArticleBeans.clear();
         mUrl = String.format(Locale.getDefault(), BASE_URL, mIndex, mPage);
+        TrafficStats.setThreadStatsTag(10086);
         final Document parse = Jsoup.connect(mUrl).userAgent("iPhone").cookie("auth", "token").get();
         parse.charset(Charset.forName("utf-8"));
         final Elements topElements = parse.select("div[class=close]")

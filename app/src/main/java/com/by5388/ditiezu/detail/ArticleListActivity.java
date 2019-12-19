@@ -26,13 +26,9 @@ public class ArticleListActivity extends SingleFragmentActivity {
 
     @Override
     public Fragment createFragment() {
-
         final Intent intent = getIntent();
         final int index = intent.getIntExtra(INTEGER_INDEX, DEFAULT_INDEX);
         final String title = intent.getStringExtra(STRING_TITLE);
-        if (!TextUtils.isEmpty(title)) {
-            setTitle(title);
-        }
-        return ArticleListFragment.newInstance(index);
+        return ArticleListFragment.newInstance(index, title);
     }
 }

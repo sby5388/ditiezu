@@ -1,5 +1,7 @@
 package com.by5388.ditiezu.bean;
 
+import androidx.annotation.NonNull;
+
 /**
  * @author Administrator  on 2019/12/18.
  */
@@ -22,34 +24,8 @@ public class ArticleCommentBean  {
         mUrlReply = urlReply;
     }
 
-    public String getUrlIcon() {
-        return mUrlIcon;
-    }
 
-    public String getUrlAuthor() {
-        return mUrlAuthor;
-    }
-
-    public String getAuthor() {
-        return mAuthor;
-    }
-
-    public String getDate() {
-        return mDate;
-    }
-
-    public String getFloor() {
-        return mFloor;
-    }
-
-    public String getComment() {
-        return mComment;
-    }
-
-    public String getUrlReply() {
-        return mUrlReply;
-    }
-
+    @NonNull
     @Override
     public String toString() {
         return "ArticleCommentBean{" +

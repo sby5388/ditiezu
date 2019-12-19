@@ -21,6 +21,8 @@ public class PageViewModel {
     }
 
     public void showDetail(View view) {
+        // TODO: 2019/12/19 严格模式检查中，出现了 "via Binder call with stack"的提示，
+        //  在堆栈中出现“# via Binder call with stack”字样代表该严格模式问题来自为跨进程调用
         final Context context = view.getContext();
 //        context.startActivity(DetailActivity.newIntent(context, mMainData));
         context.startActivity(ArticleListActivity.newIntent(context, mMainData));

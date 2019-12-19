@@ -16,6 +16,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        // TODO: 2019/12/19 异常  android.os.strictmode.DiskReadViolation
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         final FragmentManager fragmentManager = getSupportFragmentManager();
