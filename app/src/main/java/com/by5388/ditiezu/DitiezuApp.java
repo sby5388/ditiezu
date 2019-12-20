@@ -14,6 +14,9 @@ public class DitiezuApp extends Application {
     private Executor mExecutor;
     public static final boolean DEV_MODE = false;
 
+    private boolean mLogin = false;
+
+
     @Override
     public void onCreate() {
         super.onCreate();

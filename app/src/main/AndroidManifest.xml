@@ -37,6 +37,7 @@
         <activity
             android:name=".me.MeActivity"
             android:label="@string/me" />
+        <activity android:name=".user.LoginActivity" />
     </application>
 
 </manifest>
