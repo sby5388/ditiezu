@@ -1,7 +1,6 @@
 package com.by5388.ditiezu.detail;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,8 +19,8 @@ import android.webkit.WebViewClient;
 
 import com.by5388.ditiezu.R;
 import com.by5388.ditiezu.databinding.FragmentPageDetailBinding;
-import com.by5388.ditiezu.main.MainActivity;
-import com.by5388.ditiezu.me.MeActivity;
+
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -83,17 +82,14 @@ public class ArticleFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        final Context context = getContext();
+        final Context context = Objects.requireNonNull(getContext());
         switch (item.getItemId()) {
             case R.id.menu_index: {
-                final Intent intent = MainActivity.newIntent(context);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                context.startActivity(intent);
-                getActivity().finish();
+                MenuTools.toMain(getActivity());
                 return true;
             }
             case R.id.menu_me: {
-                context.startActivity(MeActivity.newIntent(context));
+                MenuTools.toMe(context);
                 return true;
             }
             default:

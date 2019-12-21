@@ -20,6 +20,7 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.by5388.ditiezu.DitiezuApp;
 import com.by5388.ditiezu.R;
 import com.by5388.ditiezu.bean.ChooseItem;
 import com.by5388.ditiezu.bean.PageData;
@@ -30,6 +31,7 @@ import com.by5388.ditiezu.temp.GetListByUri;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executor;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -89,6 +91,14 @@ public class DetailFragment extends Fragment {
             }
         }).start();
 
+        final Executor executor = DitiezuApp.getInstance().getExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+
     }
 
 
@@ -96,7 +106,7 @@ public class DetailFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_detail, menu);
-        mMenuItemClassify = menu.findItem(R.id.menu_classify);
+        mMenuItemClassify = menu.findItem(R.id.menu_filter);
         mMenuItemClassify.setEnabled(false);
     }
 
@@ -111,7 +121,7 @@ public class DetailFragment extends Fragment {
                 final Context context = Objects.requireNonNull(getContext());
                 context.startActivity(PublishActivity.newIntent(context, mPageData.mIndex));
                 return true;
-            case R.id.menu_classify:
+            case R.id.menu_filter:
                 showDialogFilter();
                 break;
             default:
@@ -202,6 +212,7 @@ public class DetailFragment extends Fragment {
         for (int i = 0; i < size; i++) {
             items[i] = mChooseItems.get(i).mName;
         }
+        // TODO: 2019/12/21 使用FragmentDialog 来实现，并显示过滤后的内容
         new AlertDialog.Builder(Objects.requireNonNull(getContext()))
                 .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
                     @Override

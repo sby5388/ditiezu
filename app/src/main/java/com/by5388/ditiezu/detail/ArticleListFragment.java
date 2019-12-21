@@ -1,24 +1,34 @@
 package com.by5388.ditiezu.detail;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.by5388.ditiezu.DitiezuApp;
 import com.by5388.ditiezu.R;
+import com.by5388.ditiezu.bean.ChooseItem;
 import com.by5388.ditiezu.databinding.FragmentArticleListBinding;
 import com.by5388.ditiezu.publish.PublishActivity;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -30,6 +40,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
  */
 // FIXME: 2019/12/19 切换屏幕方向时，标题错误
 public class ArticleListFragment extends Fragment implements ArticleAdapter.PageChangCallback, SwipeRefreshLayout.OnRefreshListener {
+    private static final String TAG = ArticleListFragment.class.getSimpleName();
     private static final String INTEGER_INDEX = "index";
     private static final String STRING_TITLE = "title";
     private static final int DEFAULT_INDEX = 46;
@@ -37,6 +48,7 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
     private ArticleAdapter mAdapter;
     private ArticleListTool mTool;
     private FragmentArticleListBinding mBinding;
+    private List<ChooseItem> mChooseItems;
     private Handler mHandler = new Handler();
 
     public static ArticleListFragment newInstance(final int index, final String title) {
@@ -53,6 +65,7 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
         final Bundle arguments = getArguments();
         if (arguments != null) {
             mIndex = arguments.getInt(INTEGER_INDEX, DEFAULT_INDEX);
@@ -106,6 +119,9 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
                     mBinding.recyclerView.scrollToPosition(0);
                     mBinding.swipeRefreshLayout.setEnabled(true);
                     mBinding.swipeRefreshLayout.setRefreshing(false);
+                    if (mChooseItems == null) {
+                        mChooseItems = mTool.getChooseItems();
+                    }
 
                 }
             });
@@ -144,6 +160,74 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
         app.getExecutor().execute(mRunnableGetData);
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_article_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_filter:
+                showFilterDialog();
+                return true;
+            case R.id.menu_search:
+                showSearchDialog();
+                return true;
+            case R.id.menu_index:
+                MenuTools.toMain(getActivity());
+                return true;
+            case R.id.menu_me:
+                MenuTools.toMe(getContext());
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showSearchDialog() {
+        Toast.makeText(getContext(), "搜索", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showFilterDialog() {
+        if (mChooseItems == null) {
+            return;
+        }
+        final int size = mChooseItems.size();
+        if (size == 0) {
+            return;
+        }
+        final CharSequence[] items = new CharSequence[size];
+        for (int i = 0; i < size; i++) {
+            items[i] = mChooseItems.get(i).mName;
+        }
+        new AlertDialog.Builder(Objects.requireNonNull(getContext()))
+                .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        final CharSequence item = items[position];
+                        Toast.makeText(getContext(), item.toString(), Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onItemSelected: item = " + item);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                })
+                .setCancelable(true)
+                .create()
+                .show();
+
+    }
+
     private int getColor(int colorId) {
         final Context context = Objects.requireNonNull(getContext());
         return getResources().getColor(colorId, context.getTheme());
@@ -170,6 +254,7 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
             app.getExecutor().execute(mRunnableGetData);
         }
     }
+
 
     @Override
     public void onDestroy() {

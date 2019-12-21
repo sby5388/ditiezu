@@ -12,7 +12,7 @@
         android:title="@string/publish"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/menu_classify"
+        android:id="@+id/menu_filter"
         android:title="@string/classify"
         app:showAsAction="never" />
 
