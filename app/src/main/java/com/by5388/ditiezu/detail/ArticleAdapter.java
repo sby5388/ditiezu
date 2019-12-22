@@ -44,7 +44,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
         mCallback = callback;
     }
 
-    ArticleAdapter() {
+    public ArticleAdapter() {
         mList = new ArrayList<>();
     }
 

@@ -35,8 +35,8 @@ public class FilterDialogFragment extends DialogFragment {
             arrayList.add(item.mName);
         }
         args.putCharSequenceArrayList(KEY, arrayList);
-
-
+        // FIXME: 2019/12/22
+        throw new RuntimeException();
     }
 
     @NonNull
@@ -46,7 +46,7 @@ public class FilterDialogFragment extends DialogFragment {
         final Context context = Objects.requireNonNull(getContext());
         final View view = getLayoutInflater().inflate(R.layout.dialog_filter, null);
         final ListView listView = view.findViewById(R.id.listView_filter);
-        listView.setAdapter(new ArrayAdapter<Context>());
+//        listView.setAdapter(new ArrayAdapter<Context>());
         return new AlertDialog.Builder(context)
                 .create();
     }

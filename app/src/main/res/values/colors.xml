@@ -16,4 +16,6 @@
 
     <color name="button_background_publish_checked">#62A8DB</color>
     <color name="button_background_publish">#e6e6e6</color>
+
+    <color name="icons">#FFFFFF</color>
 </resources>

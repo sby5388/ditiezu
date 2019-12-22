@@ -1,8 +1,12 @@
 package com.by5388.ditiezu;
 
 import android.app.Application;
+import android.os.Handler;
 import android.os.StrictMode;
 
+import com.by5388.ditiezu.main.ModuleBean;
+
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -13,6 +17,22 @@ public class DitiezuApp extends Application {
     private static DitiezuApp sInstance;
     private Executor mExecutor;
     public static final boolean DEV_MODE = false;
+    private List<ModuleBean> mModuleBeans;
+    private Handler mHandler;
+
+    public List<ModuleBean> getModuleBeans() {
+        return mModuleBeans;
+    }
+
+    public void setModuleBeans(final List<ModuleBean> moduleBeans) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mModuleBeans = moduleBeans;
+            }
+        });
+
+    }
 
     private boolean mLogin = false;
 
@@ -21,6 +41,7 @@ public class DitiezuApp extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
+        mHandler = new Handler();
 //        android.os.StrictMode.enableDefaults();
         mExecutor = Executors.newFixedThreadPool(1);
         if (DEV_MODE) {

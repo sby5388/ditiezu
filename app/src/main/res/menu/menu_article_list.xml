@@ -5,7 +5,7 @@
     <!-- TODO 使用PopMenu 会更好 -->
     <item
         android:id="@+id/menu_search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_search"
         android:title="@string/search"
         app:showAsAction="always" />
     <item

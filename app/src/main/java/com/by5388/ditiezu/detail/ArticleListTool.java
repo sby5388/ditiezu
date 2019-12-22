@@ -1,6 +1,7 @@
 package com.by5388.ditiezu.detail;
 
 import android.net.TrafficStats;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.by5388.ditiezu.bean.ArticleBean;
@@ -21,13 +22,15 @@ import java.util.Locale;
 /**
  * @author by5388  on 2019/12/17.
  */
-final class ArticleListTool {
+public final class ArticleListTool {
     public static final String TAG = "ArticleListTool";
+    //                                                                  forum.php?mod=forumdisplay&fid=7&mobile=yes
     private static final String BASE_URL = "http://www.ditiezu.com/forum.php?mod=forumdisplay&fid=%d&mobile=yes&page=%d";
     //private static final String BASE_URL = "http://www.ditiezu.com/forum.php?mod=forumdisplay&fid=46&mobile=yes&page=1";
     private final int mIndex;
     private int mPage = 1;
     private String mUrl;
+    private String mDescribe = null;
 
     private final List<ArticleBean> mArticleBeans;
     private final List<ChooseItem> mChooseItems;
@@ -68,6 +71,10 @@ final class ArticleListTool {
                 .select("div[class=content]")
                 .select("div[class=wp]")
                 .select("div[class=ct]");
+        if (TextUtils.isEmpty(mDescribe)) {
+            mDescribe = topElements.select("div[class=pt]").select("p").text();
+        }
+
         if (mChooseItems.isEmpty()) {
             //init chooseItems
             final Elements selectItems = topElements.select("div[class=thtyss]").select("a");
@@ -82,6 +89,7 @@ final class ArticleListTool {
         for (Element element : allList) {
             mArticleBeans.add(createArticleBean(element));
         }
+
 
     }
 
@@ -110,5 +118,9 @@ final class ArticleListTool {
 
     public List<ChooseItem> getChooseItems() {
         return mChooseItems;
+    }
+
+    public String getDescribe() {
+        return mDescribe;
     }
 }

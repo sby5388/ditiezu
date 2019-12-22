@@ -32,11 +32,13 @@
                 android:id="@+id/textView_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/p_1"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="@{article.title}"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:drawableStart="@drawable/p_1"
                 tools:text="连云港市郊铁路初期免费，后期单一票价3元" />
 
             <TextView
