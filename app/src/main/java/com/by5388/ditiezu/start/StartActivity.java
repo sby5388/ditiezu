@@ -31,17 +31,18 @@ public class StartActivity extends AppCompatActivity {
             app.getExecutor().execute(new Runnable() {
                 @Override
                 public void run() {
-                    final StartTools tools = new StartTools();
+                    final StartTools tools = StartTools.getInstance();
                     final StartActivity activity = StartActivity.this;
                     try {
                         tools.loadData();
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         Log.e(TAG, "run: ", e);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                Log.e(TAG, "run: ", e);
                                 Toast.makeText(activity, "网络异常", Toast.LENGTH_SHORT).show();
-                                activity.finish();
+//                                activity.finish();
                             }
                         });
                         return;
@@ -51,8 +52,9 @@ public class StartActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                Log.e(TAG, "run: ", new Exception());
                                 Toast.makeText(activity, "网络异常", Toast.LENGTH_SHORT).show();
-                                activity.finish();
+//                                activity.finish();
                             }
                         });
                     } else {

@@ -1,6 +1,9 @@
 package com.by5388.ditiezu.main;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +29,9 @@ public class MainFragment extends Fragment {
     private static final String KEY_INDEX = "index";
     private CityAdapter mAdapter;
     private Callback mCallback;
+    private FragmentMainBinding mBinding;
+    private RefreshBroadcastReceiver mReceiver;
+    public static final String INTENT_FILTER_LOAD_FINISH = "intent_filter_load_finish";
 
     public interface Callback {
         void refresh();
@@ -57,26 +63,42 @@ public class MainFragment extends Fragment {
         final DitiezuApp app = DitiezuApp.getInstance();
         final ModuleBean moduleBean = app.getModuleBeans().get(index);
         mAdapter = new CityAdapter(moduleBean.getCityBeans());
+        mReceiver = new RefreshBroadcastReceiver();
+        Objects.requireNonNull(getContext()).registerReceiver(mReceiver, new IntentFilter(INTENT_FILTER_LOAD_FINISH));
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Objects.requireNonNull(getContext()).unregisterReceiver(mReceiver);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final FragmentMainBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
-        binding.setFragment(this);
-        binding.swipeRefreshLayout.setColorSchemeColors(getColor(R.color.colorPrimary_0), getColor(R.color.colorPrimaryDark));
-        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
+        mBinding.setFragment(this);
+        mBinding.swipeRefreshLayout.setColorSchemeColors(getColor(R.color.colorPrimary_0), getColor(R.color.colorPrimaryDark));
+        mBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mCallback.refresh();
             }
         });
-        return binding.getRoot();
+        return mBinding.getRoot();
     }
 
     private int getColor(int colorId) {
         final Context context = Objects.requireNonNull(getContext());
         return getResources().getColor(colorId, context.getTheme());
+    }
+
+
+    private class RefreshBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mBinding.swipeRefreshLayout.setRefreshing(false);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

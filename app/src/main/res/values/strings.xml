@@ -118,4 +118,5 @@
     <string name="hint_secure_answer">答案</string>
     <string name="reset_text">重填</string>
     <string name="show_question">安全提问</string>
+    <string name="user">我的</string>
 </resources>

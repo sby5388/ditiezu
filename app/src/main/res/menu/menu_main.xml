@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--   todo 当这里有动态时，应当动态更换icon-->
+    <item
+        android:id="@+id/menu_user"
+        android:icon="@drawable/ic_user"
+        android:title="@string/user"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_index"
+        android:title="@string/index"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_me"
+        android:title="@string/me"
+        app:showAsAction="never" />
+
+</menu>

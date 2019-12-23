@@ -3,6 +3,7 @@ package com.by5388.ditiezu.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -18,6 +19,8 @@ import com.google.android.material.tabs.TabLayout;
 import java.io.IOException;
 import java.util.List;
 
+import static com.by5388.ditiezu.main.MainFragment.INTENT_FILTER_LOAD_FINISH;
+
 /**
  * @author by5388  on 2019/12/22.
  */
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
 
     private boolean mRefresh = false;
     private MainFragmentAdapter mAdapter;
+    private Toast mToast;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,19 +48,26 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    @Override
     public void refresh() {
         // TODO: 2019/12/22 可能需要把刷新工具做一个单例
         if (mRefresh) {
-            Toast.makeText(this, "刷新中…", Toast.LENGTH_SHORT).show();
+            show("刷新中…");
             return;
         }
         mRefresh = true;
-        Toast.makeText(this, "开始刷新", Toast.LENGTH_SHORT).show();
+        show("开始刷新");
         final DitiezuApp app = DitiezuApp.getInstance();
         app.getExecutor().execute(new Runnable() {
             @Override
             public void run() {
-                final StartTools startTools = new StartTools();
+                final StartTools startTools = StartTools.getInstance();
                 try {
                     startTools.loadData();
                 } catch (IOException e) {
@@ -64,18 +75,27 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
                 }
                 final List<ModuleBean> moduleBeans = startTools.getModuleBeans();
                 if (moduleBeans == null || moduleBeans.isEmpty()) {
+                    // TODO: 2019/12/23 补充刷新失败
                     return;
                 }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mRefresh = false;
-                        mAdapter.notifyDataSetChanged();
-                        Toast.makeText(MainActivity.this, "结束", Toast.LENGTH_SHORT).show();
+                        MainActivity.this.sendBroadcast(new Intent(INTENT_FILTER_LOAD_FINISH));
+                        MainActivity.this.show("刷新成功");
                     }
                 });
             }
         });
 
+    }
+
+    private void show(String s) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(this, s, Toast.LENGTH_SHORT);
+        mToast.show();
     }
 }

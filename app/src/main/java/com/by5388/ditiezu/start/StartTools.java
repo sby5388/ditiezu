@@ -19,16 +19,30 @@ import java.util.List;
 public class StartTools {
     private static final String BASE_URL = "http://www.ditiezu.com/forum.php?mod=forum";
     private List<ModuleBean> mModuleBeans;
+    private boolean mLoading = false;
 
     public List<ModuleBean> getModuleBeans() {
         return mModuleBeans;
     }
 
-    public StartTools() {
+    public static StartTools getInstance() {
+        return Singleton.INSTANCE;
+    }
+
+    private static class Singleton {
+        private static final StartTools INSTANCE = new StartTools();
+    }
+
+
+    private StartTools() {
         mModuleBeans = new ArrayList<>();
     }
 
-    public void loadData() throws IOException {
+    public synchronized void loadData() throws IOException {
+        if (mLoading) {
+            return;
+        }
+        mLoading = true;
         // TODO: 2019/12/22 使用cookie
         final Document document = Jsoup.connect(BASE_URL).userAgent("iPhone").get();
         document.charset(Charset.forName("utf-8"));
@@ -38,6 +52,7 @@ public class StartTools {
                 .select("div[class=content]")
                 .select("div[class=wp]")
                 .select("div[class=catlist]");
+        mModuleBeans.clear();
         for (Element cat : catList) {
             final String moduleName = cat.select("h1").text();
             final ModuleBean moduleBean = new ModuleBean(moduleName);
@@ -55,16 +70,9 @@ public class StartTools {
                 final CityBean cityBean = new CityBean(dynamic, name, describe, imageUrl, url);
                 moduleBean.addCityBean(cityBean);
             }
-
             mModuleBeans.add(moduleBean);
         }
-
-        for (ModuleBean moduleBean : mModuleBeans) {
-            System.out.println("--\t " + moduleBean.getName());
-            for (CityBean cityBean : moduleBean.getCityBeans()) {
-                System.out.println(cityBean.mName);
-            }
-        }
+        mLoading = false;
 
     }
 }
