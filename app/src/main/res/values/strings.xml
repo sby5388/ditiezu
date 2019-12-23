@@ -108,4 +108,14 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="icon_city">城市logo</string>
+    <string name="article_close">关闭</string>
+    <string name="article_top">置顶</string>
+    <string name="article_vote">投票</string>
+    <string name="login">登录</string>
+    <string name="hint_account">帐号</string>
+    <string name="hint_password">密码</string>
+    <string name="hint_secure_code">验证码</string>
+    <string name="hint_secure_answer">答案</string>
+    <string name="reset_text">重填</string>
+    <string name="show_question">安全提问</string>
 </resources>

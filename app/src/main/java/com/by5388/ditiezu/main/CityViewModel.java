@@ -9,6 +9,8 @@ import com.by5388.ditiezu.detail.ArticleListActivity2;
 
 import java.util.regex.Pattern;
 
+import androidx.annotation.Keep;
+
 /**
  * @author by5388  on 2019/12/22.
  */
@@ -39,6 +41,7 @@ public class CityViewModel {
         return mCityBean.mUrl;
     }
 
+    @Keep
     public void toDetail(View view) {
         final Context context = view.getContext();
         final int index = Integer.parseInt(Pattern.compile("[^0-9]").matcher(mCityBean.mUrl).replaceAll("").trim());

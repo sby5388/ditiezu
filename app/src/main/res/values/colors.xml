@@ -18,4 +18,11 @@
     <color name="button_background_publish">#e6e6e6</color>
 
     <color name="icons">#FFFFFF</color>
+
+    <color name="article_vote_text_bg">#62A8DB</color>
+    <color name="article_top_text_bg">#FF8C00</color>
+    <color name="article_close_text_bg">#B22222</color>
+    <color name="article_text">#FFFFFF</color>
+
+    <color name="login_bg">#549FD8</color>
 </resources>

@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="article"
             type="com.by5388.ditiezu.detail.ArticleViewModel" />
@@ -28,17 +30,59 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp">
 
+            <LinearLayout
+                android:id="@+id/linearLayout_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/article_close_text_bg"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/article_close"
+                    android:textColor="@color/article_text"
+                    android:visibility="@{article.isClose()?View.VISIBLE:View.GONE}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/article_top_text_bg"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/article_top"
+                    android:textColor="@color/article_text"
+                    android:visibility="@{article.isTop()?View.VISIBLE:View.GONE}"
+                    tools:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/article_vote_text_bg"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/article_vote"
+                    android:textColor="@color/article_text"
+                    android:visibility="@{article.isVote()?View.VISIBLE:View.GONE}"
+                    tools:visibility="gone" />
+
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/textView_title"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/p_1"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="@{article.title}"
                 android:textSize="16sp"
+                app:layout_constraintLeft_toRightOf="@id/linearLayout_tag"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:drawableStart="@drawable/p_1"
                 tools:text="连云港市郊铁路初期免费，后期单一票价3元" />
 
             <TextView

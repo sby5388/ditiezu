@@ -42,7 +42,7 @@
         <activity
             android:name=".me.MeActivity"
             android:label="@string/me" />
-        <activity android:name=".user.LoginActivity" />
+        <activity android:name=".user.LoginActivity" android:label="@string/login" />
         <activity
             android:name=".main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />

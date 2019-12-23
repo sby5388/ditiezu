@@ -95,6 +95,7 @@ public final class ArticleListTool {
 
     private static ArticleBean createArticleBean(Element element) {
         final String title = element.select("h1").text();
+        final String tag = element.select("h1").select("img").attr("src");
         final String allText = element.text();
         final String itemUrl = element.select("a").attr("href");
         final String comments = element.select("span[class=replies]").text();
@@ -108,7 +109,11 @@ public final class ArticleListTool {
             date = replace.replace(author + "-", "");
         }
         // TODO: 2019/12/17 补充其他情况
-        return new ArticleBean(itemUrl, title, author, date, comments);
+        final ArticleBean articleBean = new ArticleBean(itemUrl, title, author, date, comments);
+        if (!TextUtils.isEmpty(tag)) {
+            articleBean.setTag(tag);
+        }
+        return articleBean;
     }
 
 

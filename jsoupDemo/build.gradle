@@ -9,3 +9,7 @@ dependencies {
 
 sourceCompatibility = "7"
 targetCompatibility = "7"
+//todo 20191223 utf-8,no "GBK" error to chinese：solve problems "错误: 编码GBK的不可映射字符"
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
