@@ -21,5 +21,6 @@ public class LoginToolsTest {
     @Test
     public void loadData() throws IOException {
         mSubject.loadData();
+        mSubject.loadData2();
     }
 }

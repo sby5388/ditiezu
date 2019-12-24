@@ -5,6 +5,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 //    todo 20191216 参考其他应用的解析库
     implementation 'org.jsoup:jsoup:1.12.1'
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.6'
+
 }
 
 sourceCompatibility = "7"

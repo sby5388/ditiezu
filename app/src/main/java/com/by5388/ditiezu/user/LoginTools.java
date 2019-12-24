@@ -14,8 +14,13 @@ import java.util.Map;
  * @author Administrator  on 2019/12/23.
  */
 public class LoginTools {
+    private static final String BASE_URL = "http://www.ditiezu.com/";
     private static final String LOGIN_URL = "http://www.ditiezu.com/member.php?mod=logging&action=login&mobile=yes";
+    private static final String LOGIN_URL0 = "http://www.ditiezu.com/member.php?";
     private Map<String, String> mCookieMap = new HashMap<>();
+
+
+    private String mSecureCodeUrl;
 
     public void loadData() throws IOException {
         final Connection.Response response = Jsoup
@@ -36,5 +41,45 @@ public class LoginTools {
 
 
     }
+
+
+    public void loadData2() throws IOException {
+        final Map<String, String> data = new HashMap<>();
+        data.put("mod", "logging");
+        data.put("action", "login");
+        data.put("mobile", "yes");
+        final Document post = Jsoup.connect(LOGIN_URL0).userAgent("iPhone")
+                .cookie("auth", "token")
+                .cookies(mCookieMap)
+                .data(data)
+                .get();
+        post.charset(Charset.forName("utf-8"));
+        System.out.println(post.toString());
+
+    }
+
+
+    public void loadData3() throws IOException {
+        final Map<String, String> data = new HashMap<>();
+        data.put("mod", "logging");
+        data.put("action", "login");
+        data.put("mobile", "yes");
+        final Connection connection = Jsoup.connect(LOGIN_URL0);
+        final Connection.Request request = connection.request();
+        final String s = request.requestBody();
+
+        final Document post = Jsoup.connect(LOGIN_URL0).userAgent("iPhone")
+                .cookie("auth", "token")
+                .data(data)
+                .get();
+        post.charset(Charset.forName("utf-8"));
+        System.out.println(post.toString());
+
+    }
+
+    public String getSecureCodeUrl() {
+        return BASE_URL + mSecureCodeUrl;
+    }
+
 
 }

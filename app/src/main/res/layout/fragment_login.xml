@@ -83,7 +83,7 @@
                     android:id="@+id/spinner_secure_question"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="@{fragment.isShowSecureQueestion() ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{fragment.isShowSecureQuestion() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toBottomOf="@id/editText_secure_code"
                     tools:visibility="visible" />
 
@@ -92,7 +92,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:visibility="@{fragment.isShowSecureQueestion() ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{fragment.isShowSecureQuestion() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toBottomOf="@id/spinner_secure_question"
                     tools:hint="@string/hint_secure_code"
                     tools:visibility="visible" />

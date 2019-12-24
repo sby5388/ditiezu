@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import androidx.annotation.NonNull;
+
 /**
  * @author by5388  on 2019/12/14.
  */
-public class DitiezuApp extends Application {
+public class DitiezuApp extends Application implements Executor {
     private static DitiezuApp sInstance;
     private Executor mExecutor;
     public static final boolean DEV_MODE = false;
@@ -36,6 +38,9 @@ public class DitiezuApp extends Application {
 
     private boolean mLogin = false;
 
+    public boolean isLogin() {
+        return mLogin;
+    }
 
     @Override
     public void onCreate() {
@@ -72,5 +77,10 @@ public class DitiezuApp extends Application {
 
     public Executor getExecutor() {
         return mExecutor;
+    }
+
+    @Override
+    public void execute(@NonNull Runnable command) {
+        mExecutor.execute(command);
     }
 }
