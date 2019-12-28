@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/menu_index"
-        android:title="@string/index"
+        android:title="@string/pid"
         app:showAsAction="ifRoom"
         tools:showAsAction="never" />
 

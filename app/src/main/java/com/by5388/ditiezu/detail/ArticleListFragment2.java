@@ -1,7 +1,7 @@
 package com.by5388.ditiezu.detail;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,13 +13,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -41,17 +39,22 @@ import java.util.Objects;
  * @author Administrator  on 2019/12/17.
  */
 // FIXME: 2019/12/19 切换屏幕方向时，标题错误
+// FIXME: 2019/12/27 旋转后 swipeRefreshLayout 一直没有停下来
 public class ArticleListFragment2 extends Fragment implements ArticleAdapter.PageChangCallback, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = ArticleListFragment2.class.getSimpleName();
+    private static final String FILTER_TAG = "FilterDialogFragment";
     private static final String INTEGER_INDEX = "index";
     private static final String STRING_TITLE = "title";
     private static final int DEFAULT_INDEX = 46;
+    private static final int REQUEST_CODE_FILTER = 100;
     private int mIndex = DEFAULT_INDEX;
     private ArticleAdapter mAdapter;
     private ArticleListTool mTool;
     private ActivityScrollingBinding mBinding;
     private List<ChooseItem> mChooseItems;
     private Handler mHandler = new Handler();
+    private int mListIndex = 0;
+    private ArticleListTool.QueryParam.Builder mBuild = new ArticleListTool.QueryParam.Builder();
 
     @Deprecated
     public static ArticleListFragment2 newInstance(final int index, final String title) {
@@ -108,7 +111,8 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
         @Override
         public void run() {
             try {
-                mTool.loadData();
+//                mTool.loadData();
+                mTool.loadData(mBuild.build());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -126,6 +130,7 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
                     if (!TextUtils.isEmpty(describe)) {
                         final AppCompatActivity activity = (AppCompatActivity) getActivity();
                         final ActionBar actionBar = activity.getSupportActionBar();
+                        // TODO: 2019/12/28 设置二级标题
 //                        actionBar.setDisplayOptions();
                         actionBar.setSubtitle(describe);
                     }
@@ -185,6 +190,7 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_filter:
+
                 showFilterDialog();
                 return true;
             case R.id.menu_search:
@@ -214,33 +220,9 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
         if (size == 0) {
             return;
         }
-        final CharSequence[] items = new CharSequence[size];
-        for (int i = 0; i < size; i++) {
-            items[i] = mChooseItems.get(i).mName;
-        }
-        new AlertDialog.Builder(Objects.requireNonNull(getContext()))
-                .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        final CharSequence item = items[position];
-                        Toast.makeText(getContext(), item.toString(), Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "onItemSelected: item = " + item);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                })
-                .setCancelable(true)
-                .create()
-                .show();
-
+        final FilterDialogFragment fragment = FilterDialogFragment.newInstance(mChooseItems, mListIndex);
+        fragment.setTargetFragment(this, REQUEST_CODE_FILTER);
+        fragment.show(Objects.requireNonNull(getFragmentManager()), FILTER_TAG);
     }
 
     private int getColor(int colorId) {
@@ -255,18 +237,20 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
     @Override
     public void changePrePage() {
         if (mTool.enableLoadPrePage()) {
+            mBuild.setPage(mBuild.getPage() - 1);
             mAdapter.clear();
             final DitiezuApp app = DitiezuApp.getInstance();
-            app.getExecutor().execute(mRunnableGetData);
+            app.execute(mRunnableGetData);
         }
     }
 
     @Override
     public void changeNextPage() {
         if (mTool.enableLoadNextPage()) {
+            mBuild.setPage(mBuild.getPage() + 1);
             mAdapter.clear();
             final DitiezuApp app = DitiezuApp.getInstance();
-            app.getExecutor().execute(mRunnableGetData);
+            app.execute(mRunnableGetData);
         }
     }
 
@@ -275,5 +259,21 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
     public void onDestroy() {
         super.onDestroy();
         mTool = null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_CODE_FILTER) {
+            final int listIndex = FilterDialogFragment.getIndex(data);
+            if (listIndex != mListIndex) {
+                mListIndex = listIndex;
+                Toast.makeText(getContext(), mChooseItems.get(mListIndex).mName, Toast.LENGTH_SHORT).show();
+                // TODO: 2019/12/28 刷新数据
+            }
+        }
     }
 }

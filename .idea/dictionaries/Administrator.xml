@@ -4,10 +4,12 @@
       <w>alist</w>
       <w>catlist</w>
       <w>ditiezu</w>
+      <w>forumdisplay</w>
       <w>jsoup</w>
       <w>recyclerview</w>
       <w>subfrm</w>
       <w>thtyss</w>
+      <w>typeid</w>
     </words>
   </dictionary>
 </component>

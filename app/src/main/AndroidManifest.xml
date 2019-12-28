@@ -35,9 +35,7 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".detail.DetailActivity" />
         <activity android:name=".publish.PublishActivity" />
-        <activity android:name=".detail.ArticleListActivity" />
         <activity android:name=".detail.ArticleActivity" />
         <activity
             android:name=".me.MeActivity"

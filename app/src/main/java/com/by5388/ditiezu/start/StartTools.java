@@ -1,5 +1,7 @@
 package com.by5388.ditiezu.start;
 
+import android.util.Log;
+
 import com.by5388.ditiezu.main.CityBean;
 import com.by5388.ditiezu.main.ModuleBean;
 
@@ -17,6 +19,7 @@ import java.util.List;
  * @author by5388  on 2019/12/22.
  */
 public class StartTools {
+    private static final String TAG = "StartTools";
     private static final String BASE_URL = "http://www.ditiezu.com/forum.php?mod=forum";
     private List<ModuleBean> mModuleBeans;
     private boolean mLoading = false;
@@ -65,10 +68,16 @@ public class StartTools {
                 final String name = text.select("p[class=f_nm]").text();
                 // TODO: 2019/12/22 如何处理带空格的
                 //final String describe = text.select("p.xgl").select("p .f_dp").text();
-                final String describe = text.select("p").get(1).text();
-                final String dynamic = text.select("span").text();
-                final CityBean cityBean = new CityBean(dynamic, name, describe, imageUrl, url);
-                moduleBean.addCityBean(cityBean);
+
+                final Elements p = text.select("p");
+                if (p.size() > 1) {
+                    final String describe = p.get(1).text();
+                    final String dynamic = text.select("span").text();
+                    final CityBean cityBean = new CityBean(dynamic, name, describe, imageUrl, url);
+                    moduleBean.addCityBean(cityBean);
+                } else {
+                    Log.e(TAG, "loadData: size = " + p.size(), new Exception());
+                }
             }
             mModuleBeans.add(moduleBean);
         }

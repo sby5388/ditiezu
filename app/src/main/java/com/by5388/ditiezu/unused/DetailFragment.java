@@ -1,4 +1,4 @@
-package com.by5388.ditiezu.detail;
+package com.by5388.ditiezu.unused;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -115,7 +115,6 @@ public class DetailFragment extends Fragment {
         final int itemId = item.getItemId();
         switch (itemId) {
             case R.id.menu_search:
-                startActivity(ArticleListActivity.newIntent(getContext(), mPageData));
                 return true;
             case R.id.menu_publish:
                 final Context context = Objects.requireNonNull(getContext());
