@@ -14,23 +14,23 @@ public class CommentViewModel {
     }
 
     public String getUrlIcon() {
-        return mBean.mUrlIcon;
+        return mBean.mUserIconUrl;
     }
 
     public String getUrlAuthor() {
-        return mBean.mUrlAuthor;
+        return mBean.mUserUrl;
     }
 
     public String getAuthor() {
-        return mBean.mAuthor;
+        return mBean.mUserName;
     }
 
     public String getDate() {
         return mBean.mDate;
     }
 
-    public String getFloor() {
-        return mBean.mFloor;
+    public String getTag() {
+        return mBean.mTag;
     }
 
     public String getComment() {
@@ -38,6 +38,6 @@ public class CommentViewModel {
     }
 
     public String getUrlReply() {
-        return mBean.mUrlReply;
+        return mBean.mActionUrl;
     }
 }

@@ -7,7 +7,7 @@
 
         <variable
             name="fragment"
-            type="com.by5388.ditiezu.detail.ArticleListFragment2" />
+            type="com.by5388.ditiezu.article.list.ArticleListFragment" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

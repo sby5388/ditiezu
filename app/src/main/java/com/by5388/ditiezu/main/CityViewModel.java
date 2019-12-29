@@ -4,10 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.by5388.ditiezu.bean.PageData;
-import com.by5388.ditiezu.detail.ArticleListActivity2;
-
-import java.util.regex.Pattern;
+import com.by5388.ditiezu.article.list.ArticleListActivity;
 
 import androidx.annotation.Keep;
 
@@ -44,9 +41,7 @@ public class CityViewModel {
     @Keep
     public void toDetail(View view) {
         final Context context = view.getContext();
-        final int index = Integer.parseInt(Pattern.compile("[^0-9]").matcher(mCityBean.mUrl).replaceAll("").trim());
-        final PageData pageData = new PageData(index, mCityBean.mName);
-        final Intent intent = ArticleListActivity2.newIntent(context, pageData);
+        final Intent intent = ArticleListActivity.newIntent(context, mCityBean);
         context.startActivity(intent);
     }
 }

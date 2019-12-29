@@ -7,7 +7,7 @@
 
         <variable
             name="fragment"
-            type="com.by5388.ditiezu.detail.ArticleListFragment2" />
+            type="com.by5388.ditiezu.article.list.ArticleListFragment" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -32,12 +32,26 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:toolbarId="@+id/toolbar">
 
-                <TextView
-                    android:id="@+id/texView_describe"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_collapseMode="parallax"
-                    tools:text="地下通衢肇始燕，铁流暗涌古城垣。北畅南达东西贯，京都旧貌换新颜。" />
+                    android:orientation="horizontal"
+                    app:layout_collapseMode="parallax">
+
+                    <ImageView
+                        android:id="@+id/icon"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        tools:src="@drawable/ic_logo_in" />
+
+                    <TextView
+                        android:id="@+id/texView_describe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="50dp"
+                        tools:text="地下通衢肇始燕，铁流暗涌古城垣。北畅南达东西贯，京都旧貌换新颜。" />
+                </LinearLayout>
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"

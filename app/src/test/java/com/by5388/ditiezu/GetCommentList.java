@@ -49,7 +49,7 @@ public class GetCommentList {
             final String userName = user.select("a").text();
             final String userUrl = user.select("a").attr("href");
             // FIXME: 2019/12/18 时间不对，获取不到
-            final String date = user.select("span[class=p_d1]").select("em").text();
+            final String date = user.select("span[class=p_dl]").select("em").text();
             final String floor = user.select("span[class=p_nm y]").text();
             final Elements replay = element.select("div[class=vbc notb]");
 //            final Elements replay = element.select("div[class=vbc]");

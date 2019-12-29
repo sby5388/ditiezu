@@ -90,7 +90,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_search:
-                final boolean login = DitiezuApp.getInstance().isLogin();
+                // TODO: 2019/12/28
+//                final boolean login = DitiezuApp.getInstance().isLogin();
+                final boolean login = true;
                 if (!login) {
                     startActivity(LoginActivity.newIntent(this));
                 } else {

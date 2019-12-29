@@ -1,4 +1,4 @@
-package com.by5388.ditiezu.detail;
+package com.by5388.ditiezu.article.list;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -25,10 +24,12 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.by5388.ditiezu.DitiezuApp;
 import com.by5388.ditiezu.R;
 import com.by5388.ditiezu.bean.ChooseItem;
 import com.by5388.ditiezu.databinding.ActivityScrollingBinding;
+import com.by5388.ditiezu.MenuTools;
 import com.by5388.ditiezu.publish.PublishActivity;
 
 import java.io.IOException;
@@ -40,13 +41,17 @@ import java.util.Objects;
  */
 // FIXME: 2019/12/19 切换屏幕方向时，标题错误
 // FIXME: 2019/12/27 旋转后 swipeRefreshLayout 一直没有停下来
-public class ArticleListFragment2 extends Fragment implements ArticleAdapter.PageChangCallback, SwipeRefreshLayout.OnRefreshListener {
-    private static final String TAG = ArticleListFragment2.class.getSimpleName();
+public class ArticleListFragment extends Fragment implements ArticleAdapter.PageChangCallback, SwipeRefreshLayout.OnRefreshListener {
+    private static final String TAG = ArticleListFragment.class.getSimpleName();
     private static final String FILTER_TAG = "FilterDialogFragment";
+    private static final String BASE_URL = "http://www.ditiezu.com/";
     private static final String INTEGER_INDEX = "index";
     private static final String STRING_TITLE = "title";
+    private static final String STRING_TITLE2 = "title2";
+    private static final String STRING_ICON_URL = "icon_url";
     private static final int DEFAULT_INDEX = 46;
     private static final int REQUEST_CODE_FILTER = 100;
+    public String title2;
     private int mIndex = DEFAULT_INDEX;
     private ArticleAdapter mAdapter;
     private ArticleListTool mTool;
@@ -54,14 +59,17 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
     private List<ChooseItem> mChooseItems;
     private Handler mHandler = new Handler();
     private int mListIndex = 0;
+    private String mIconUrl;
+    private FilterDialogFragment mDialogFragment;
     private ArticleListTool.QueryParam.Builder mBuild = new ArticleListTool.QueryParam.Builder();
 
-    @Deprecated
-    public static ArticleListFragment2 newInstance(final int index, final String title) {
-        final ArticleListFragment2 fragment = new ArticleListFragment2();
+    public static ArticleListFragment newInstance(final int index, final String title, final String title2, String iconUrl) {
+        final ArticleListFragment fragment = new ArticleListFragment();
         final Bundle args = new Bundle();
         args.putInt(INTEGER_INDEX, index);
         args.putString(STRING_TITLE, title);
+        args.putString(STRING_TITLE2, title2);
+        args.putString(STRING_ICON_URL, iconUrl);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,6 +84,9 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
         final Bundle arguments = getArguments();
         if (arguments != null) {
             mIndex = arguments.getInt(INTEGER_INDEX, DEFAULT_INDEX);
+            mIconUrl = arguments.getString(STRING_ICON_URL);
+            title2 = arguments.getString(STRING_TITLE2);
+            Log.d(TAG, "onCreate: mIconUrl = " + mIconUrl);
         }
         mAdapter = new ArticleAdapter();
         mAdapter.setCallback(this);
@@ -111,7 +122,6 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
         @Override
         public void run() {
             try {
-//                mTool.loadData();
                 mTool.loadData(mBuild.build());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -128,11 +138,12 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
                     mAdapter.setList(mTool.getArticleBeans());
                     final String describe = mTool.getDescribe();
                     if (!TextUtils.isEmpty(describe)) {
-                        final AppCompatActivity activity = (AppCompatActivity) getActivity();
-                        final ActionBar actionBar = activity.getSupportActionBar();
-                        // TODO: 2019/12/28 设置二级标题
-//                        actionBar.setDisplayOptions();
-                        actionBar.setSubtitle(describe);
+//                        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+//                        final ActionBar actionBar = activity.getSupportActionBar();
+//                        // TODO: 2019/12/28 设置二级标题
+////                        actionBar.setDisplayOptions();
+//                        actionBar.setSubtitle(describe);
+//                        mBinding.texViewDescribe.setText(describe);
                     }
                     mBinding.recyclerView.scrollToPosition(0);
                     mBinding.swipeRefreshLayout.setEnabled(true);
@@ -153,6 +164,12 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
         final AppCompatActivity activity = Objects.requireNonNull((AppCompatActivity) getActivity());
         activity.setSupportActionBar(mBinding.toolbar);
         mBinding.setFragment(this);
+        if (!TextUtils.isEmpty(mIconUrl)) {
+            Glide.with(this).load(BASE_URL + mIconUrl).into(mBinding.icon);
+        }
+        if (!TextUtils.isEmpty(title2)) {
+            mBinding.texViewDescribe.setText(title2);
+        }
         mBinding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,7 +207,6 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_filter:
-
                 showFilterDialog();
                 return true;
             case R.id.menu_search:
@@ -220,9 +236,15 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
         if (size == 0) {
             return;
         }
-        final FilterDialogFragment fragment = FilterDialogFragment.newInstance(mChooseItems, mListIndex);
-        fragment.setTargetFragment(this, REQUEST_CODE_FILTER);
-        fragment.show(Objects.requireNonNull(getFragmentManager()), FILTER_TAG);
+        if (mDialogFragment == null) {
+            mDialogFragment = FilterDialogFragment.newInstance(mChooseItems);
+            mDialogFragment.setTargetFragment(this, REQUEST_CODE_FILTER);
+        }
+        if (mDialogFragment.isVisible()) {
+            return;
+        }
+        mDialogFragment.setIndex(mListIndex);
+        mDialogFragment.show(Objects.requireNonNull(getFragmentManager()), FILTER_TAG);
     }
 
     private int getColor(int colorId) {
@@ -271,8 +293,30 @@ public class ArticleListFragment2 extends Fragment implements ArticleAdapter.Pag
             final int listIndex = FilterDialogFragment.getIndex(data);
             if (listIndex != mListIndex) {
                 mListIndex = listIndex;
-                Toast.makeText(getContext(), mChooseItems.get(mListIndex).mName, Toast.LENGTH_SHORT).show();
+                final ChooseItem chooseItem = mChooseItems.get(mListIndex);
                 // TODO: 2019/12/28 刷新数据
+                final String[] params = chooseItem.mUrl.split("&");
+                boolean filter = false;
+                for (String param : params) {
+                    final String[] map = param.split("=");
+                    if (map.length == 2) {
+                        if ("filter".equals(map[0])) {
+                            mBuild.setFilter(map[1]);
+                            filter = true;
+                        } else if ("typeid".equals(map[0])) {
+                            mBuild.setTypeid(map[1]);
+                            filter = true;
+                        }
+                    }
+                }
+                if (!filter) {
+                    mBuild.setFilter("");
+                    mBuild.setTypeid("");
+                }
+                mAdapter.clear();
+                final DitiezuApp app = DitiezuApp.getInstance();
+                app.execute(mRunnableGetData);
+
             }
         }
     }

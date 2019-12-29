@@ -2,6 +2,7 @@ package com.by5388.ditiezu.detail;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,17 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-
-import com.by5388.ditiezu.R;
-import com.by5388.ditiezu.databinding.FragmentPageDetailBinding;
-
-import java.util.Objects;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,18 +19,30 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.by5388.ditiezu.DitiezuApp;
+import com.by5388.ditiezu.MenuTools;
+import com.by5388.ditiezu.R;
+import com.by5388.ditiezu.databinding.FragmentArticleDetailBinding;
+
+import java.io.IOException;
+import java.util.Objects;
+
 /**
  * @author Administrator  on 2019/12/18.
  */
-public class ArticleFragment extends Fragment {
-    private static final String TAG = "ArticleFragment";
+public class ArticleDetailFragment extends Fragment {
+    private static final String TAG = "ArticleDetailFragment";
     private static final String ARTICLE_URL = "article_url";
     private String mUrl;
-    private WebView mWebView;
     private static final String BASE_URL = "http://www.ditiezu.com/";
+    private FragmentArticleDetailBinding mBinding;
+    private CommentAdapter mAdapter;
+    private DetailTool mTool;
+    private Handler mHandler = new Handler();
 
-    public static ArticleFragment newInstance(String url) {
-        final ArticleFragment fragment = new ArticleFragment();
+
+    public static ArticleDetailFragment newInstance(String url) {
+        final ArticleDetailFragment fragment = new ArticleDetailFragment();
         final Bundle args = new Bundle();
         if (!TextUtils.isEmpty(url)) {
             args.putString(ARTICLE_URL, url);
@@ -63,7 +66,8 @@ public class ArticleFragment extends Fragment {
             return;
         }
         Log.d(TAG, "onCreate: mUrl = " + mUrl);
-
+        mAdapter = new CommentAdapter();
+        mTool = new DetailTool(mUrl);
     }
 
     private void finish() {
@@ -102,45 +106,44 @@ public class ArticleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final FragmentPageDetailBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_page_detail, container, false);
-        mWebView = binding.webView;
-        final WebSettings settings = mWebView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        mWebView.loadUrl(getUrl());
-        mWebView.setWebViewClient(
-                new WebViewClient() {
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        view.loadUrl(url);
-                        return true;
-                    }
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_article_detail, container, false);
+        mBinding.setFragment(this);
+        mBinding.recyclerView.setAdapter(mAdapter);
+        loadData();
+        return mBinding.getRoot();
+    }
 
-                    @Nullable
-                    @Override
-                    public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                        final String message = request.getUrl().toString();
-                        //TODO 拦截谷歌广告、百度广告
-                        // FIXME: 2019/12/18 页面底部的广告未拦截
-                        if (message.contains("google") || message.contains("baidu")) {
-                            return new WebResourceResponse(null, null, null);
-                        }
-                        Log.e(TAG, "shouldInterceptRequest: url = " + message);
-                        return super.shouldInterceptRequest(view, request);
-                    }
-                }
-        );
-        mWebView.setWebChromeClient(new WebChromeClient() {
+
+    private void loadData() {
+        DitiezuApp.getInstance().execute(new Runnable() {
             @Override
-            public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-                final FragmentActivity activity = getActivity();
-                if (activity != null) {
-                    activity.setTitle(title);
+            public void run() {
+                try {
+                    mTool.loadData();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                final ArticleDetailBean detailBean = mTool.getDetailBean();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (detailBean == null) {
+                            Toast.makeText(getContext(), "数据错误", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        mAdapter.setCommentBeans(detailBean.getCommentBeans());
+                        mBinding.buttonMainReply.setText(detailBean.getReply());
+                        mBinding.textViewOrigin.setText(detailBean.getMainContent());
+                        mBinding.buttonMainReply.setText(detailBean.getReply());
+                        mBinding.textViewUserDate.setText(detailBean.getDate());
+                        mBinding.buttonSort.setText(detailBean.getSortName());
+                        mBinding.buttonUserName.setText(detailBean.getAuthorName());
+                    }
+                });
             }
         });
-        return binding.getRoot();
     }
+
 
     private String getUrl() {
         boolean isTest = false;

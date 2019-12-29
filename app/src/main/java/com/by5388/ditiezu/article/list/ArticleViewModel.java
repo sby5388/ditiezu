@@ -1,9 +1,10 @@
-package com.by5388.ditiezu.detail;
+package com.by5388.ditiezu.article.list;
 
 import android.content.Context;
 import android.view.View;
 
 import com.by5388.ditiezu.bean.ArticleBean;
+import com.by5388.ditiezu.detail.ArticleDetailActivity;
 
 import androidx.annotation.Keep;
 
@@ -49,7 +50,7 @@ public class ArticleViewModel {
     @Keep
     public void onClick(View view) {
         final Context context = view.getContext();
-        context.startActivity(ArticleActivity.newIntent(context, mArticleBean.mUrl));
+        context.startActivity(ArticleDetailActivity.newIntent(context, mArticleBean.mUrl));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.by5388.ditiezu.detail;
+package com.by5388.ditiezu;
 
 import android.app.Activity;
 import android.content.Context;

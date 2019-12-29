@@ -1,4 +1,4 @@
-package com.by5388.ditiezu.detail;
+package com.by5388.ditiezu.article.list;
 
 import android.net.TrafficStats;
 import android.net.Uri;
@@ -19,7 +19,6 @@ import java.net.MalformedURLException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @author by5388  on 2019/12/17.
@@ -34,9 +33,7 @@ public final class ArticleListTool {
     // TODO: 2019/12/28  类型筛选的链接
     //http://ditiezu.com/forum.php?mod=forumdisplay&fid=23&mobile=yes&filter=typeid&typeid=231
 
-
     private final int mPid;
-    private int mPage = 1;
     private String mUrl;
     private String mDescribe = null;
     private QueryParam mCurrentQueryParam;
@@ -56,8 +53,7 @@ public final class ArticleListTool {
             // TODO: 2019/12/18 getMaxPage
             return true;
         }
-
-        return true;
+        return false;
     }
 
     public boolean isFirstPage() {
@@ -74,33 +70,11 @@ public final class ArticleListTool {
             queryParam.fid = mPid;
         }
         this.mCurrentQueryParam = queryParam;
-        mPage = queryParam.page;
         mArticleBeans.clear();
         TrafficStats.setThreadStatsTag(10086);
         final Document parse = Jsoup.connect(queryParam.toString()).userAgent("iPhone").cookie("auth", "token").get();
         loadData(parse);
     }
-
-
-    /**
-     * @throws MalformedURLException
-     * @throws IOException
-     * @deprecated {@link #loadData(QueryParam)}
-     */
-    @Deprecated
-    public void loadData() throws MalformedURLException, IOException {
-        if (true) {
-            // TODO: 2019/12/28
-            loadData(mCurrentQueryParam);
-            return;
-        }
-        mArticleBeans.clear();
-        mUrl = String.format(Locale.getDefault(), BASE_URL, mPid, mPage);
-        TrafficStats.setThreadStatsTag(10086);
-        final Document parse = Jsoup.connect(mUrl).userAgent("iPhone").cookie("auth", "token").get();
-        loadData(parse);
-    }
-
 
     private void loadData(Document parse) {
         parse.charset(Charset.forName("utf-8"));
@@ -247,6 +221,8 @@ public final class ArticleListTool {
                 if (FILTER_TYPE.equals(filter) && !TextUtils.isEmpty(typeid)) {
                     queryParam.filter = this.filter;
                     queryParam.typeid = this.typeid;
+                }else{
+
                 }
                 return queryParam;
             }

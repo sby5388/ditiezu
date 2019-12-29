@@ -1,4 +1,4 @@
-package com.by5388.ditiezu.detail;
+package com.by5388.ditiezu.article.list;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -30,7 +30,7 @@ public class FilterDialogFragment extends DialogFragment {
     private String[] mArray;
 
 
-    public static FilterDialogFragment newInstance(List<ChooseItem> chooseItems, int index) {
+    public static FilterDialogFragment newInstance(List<ChooseItem> chooseItems) {
         final FilterDialogFragment fragment = new FilterDialogFragment();
         final Bundle args = new Bundle();
         final String[] array = new String[chooseItems.size()];
@@ -38,10 +38,12 @@ public class FilterDialogFragment extends DialogFragment {
             array[i] = chooseItems.get(i).mName;
         }
         args.putCharSequenceArray(CHOOSE_LIST_ARRAY, array);
-        args.putInt(LIST_INDEX, index);
-        // FIXME: 2019/12/22
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setIndex(int index) {
+        mIndex = index;
     }
 
     @Override
@@ -52,8 +54,6 @@ public class FilterDialogFragment extends DialogFragment {
             return;
         }
         mArray = bundle.getStringArray(CHOOSE_LIST_ARRAY);
-        mIndex = bundle.getInt(LIST_INDEX);
-
     }
 
     @NonNull

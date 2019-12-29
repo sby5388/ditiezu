@@ -1,4 +1,4 @@
-package com.by5388.ditiezu.detail;
+package com.by5388.ditiezu.article.list;
 
 import android.view.LayoutInflater;
 import android.view.View;

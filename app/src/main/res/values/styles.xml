@@ -27,6 +27,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="PublishButton" parent="Widget.AppCompat.Button">
+        <item name="android:button">@null</item>
         <item name="android:textColor">@drawable/publish_button_text_color</item>
         <item name="android:background">@drawable/publish_button_background_color</item>
     </style>

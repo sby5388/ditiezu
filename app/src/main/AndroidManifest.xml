@@ -7,14 +7,14 @@
     <application
         android:name=".DitiezuApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_dtz"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".detail.ArticleListActivity2"
+            android:name=".article.list.ArticleListActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
 
@@ -36,25 +36,33 @@
             </intent-filter>
         </activity>
         <activity android:name=".publish.PublishActivity" />
-        <activity android:name=".detail.ArticleActivity" />
+        <activity android:name=".detail.ArticleDetailActivity" />
         <activity
             android:name=".me.MeActivity"
             android:label="@string/me" />
-        <activity android:name=".user.LoginActivity" android:label="@string/login" />
+        <activity
+            android:name=".user.LoginActivity"
+            android:label="@string/login" />
         <activity
             android:name=".main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".start.StartActivity"
             android:label="@string/app_name">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+
         </activity>
-        <activity android:name=".search.SearchActivity" />
+        <activity
+            android:name=".search.SearchActivity"
+            android:label="@string/search" >
+
+        </activity>
 
     </application>
 

@@ -9,7 +9,7 @@
 
         <variable
             name="article"
-            type="com.by5388.ditiezu.detail.ArticleViewModel" />
+            type="com.by5388.ditiezu.article.list.ArticleViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView

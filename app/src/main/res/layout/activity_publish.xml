@@ -23,7 +23,6 @@
             style="@style/PublishButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@null"
             android:text="发帖"
             tools:checked="true" />
 
@@ -32,7 +31,6 @@
             style="@style/PublishButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@null"
             android:text="投票"
             tools:checked="false" />
 
