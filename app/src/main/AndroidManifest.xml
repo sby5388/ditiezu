@@ -14,28 +14,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".article.list.ArticleListActivity"
+            android:name=".article.list.ArticleListActivityBase"
             android:theme="@style/AppTheme.NoActionBar">
-
-
-        </activity>
-        <activity
-            android:name=".temp.ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar">
-
 
         </activity>
         <activity
             android:name=".temp.Main2Activity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TempActivity">
+        <activity
+            android:name=".TempActivity"
+            android:theme="@style/AppTheme_Material">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".publish.PublishActivity" />
+        <activity
+            android:name=".publish.PublishActivity"
+            android:theme="@style/AppTheme_Material">
+
+
+        </activity>
         <activity android:name=".detail.ArticleDetailActivity" />
         <activity
             android:name=".me.MeActivity"
@@ -48,7 +49,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".start.StartActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/StartTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,13 +58,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-
         </activity>
         <activity
             android:name=".search.SearchActivity"
-            android:label="@string/search" >
+            android:label="@string/search">
 
         </activity>
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/setting">
+
+        </activity>
+
+        <service
+            android:name=".service.NoticeService"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/files" />
+
+        </provider>
 
     </application>
 

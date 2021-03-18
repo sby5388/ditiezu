@@ -1,8 +1,8 @@
 package com.by5388.ditiezu;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * @author Administrator

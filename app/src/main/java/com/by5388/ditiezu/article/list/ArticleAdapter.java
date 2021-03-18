@@ -21,20 +21,17 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleHolder> {
 
-    public interface PageChangCallback {
-        void changePrePage();
-
-        void changeNextPage();
-    }
-
     private static final int VIEW_TYPE_NORMAL = 0;
     private static final int VIEW_TYPE_EMPTY = 1;
     private static final int VIEW_TYPE_ACTION = 2;
     private static final int COUNT_EMPTY_DATA = 1;
     private List<ArticleBean> mList;
     private PageChangCallback mCallback;
-
     private boolean mFirstPage = true;
+
+    public ArticleAdapter() {
+        mList = new ArrayList<>();
+    }
 
     public void setFirstPage(boolean firstPage) {
         mFirstPage = firstPage;
@@ -43,11 +40,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
     public void setCallback(PageChangCallback callback) {
         mCallback = callback;
     }
-
-    public ArticleAdapter() {
-        mList = new ArrayList<>();
-    }
-
 
     public void setList(List<ArticleBean> list) {
         mList = list;
@@ -108,6 +100,12 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleH
         }
         //add a item show Buttons
         return mList.size() + 1;
+    }
+
+    public interface PageChangCallback {
+        void changePrePage();
+
+        void changeNextPage();
     }
 
     class ArticleHolder extends RecyclerView.ViewHolder {

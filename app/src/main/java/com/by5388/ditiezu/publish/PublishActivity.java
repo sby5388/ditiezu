@@ -24,18 +24,25 @@ public class PublishActivity extends AppCompatActivity implements RadioGroup.OnC
     private static final int TYPE_VOTE = 1;
     private static final String TYPE_ACTION = "type_action";
     private static final String PAGE_ID = "pageId";
+    private static final String FRAGMENT_TAG_PUBLISH = "PublishFragment";
+    private static final String FRAGMENT_TAG_VOTE = "VoteFragment";
     private RadioButton mRadioButtonPublish;
     private RadioButton mRadioButtonVote;
     private RadioGroup mRadioGroup;
     private PublishFragment mPublishFragment;
     private VoteFragment mVoteFragment;
-    private static final String FRAGMENT_TAG_PUBLISH = "PublishFragment";
-    private static final String FRAGMENT_TAG_VOTE = "VoteFragment";
+
+    public static Intent newIntent(Context context, int id) {
+        final Intent intent = new Intent(context, PublishActivity.class);
+        intent.putExtra(PAGE_ID, id);
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish);
+
         mRadioGroup = findViewById(R.id.button_group);
         mRadioButtonVote = findViewById(R.id.button_vote);
         mRadioButtonPublish = findViewById(R.id.button_publish);
@@ -94,13 +101,6 @@ public class PublishActivity extends AppCompatActivity implements RadioGroup.OnC
         } else if (fragment instanceof VoteFragment) {
             mVoteFragment = (VoteFragment) fragment;
         }
-    }
-
-
-    public static Intent newIntent(Context context, int id) {
-        final Intent intent = new Intent(context, PublishActivity.class);
-        intent.putExtra(PAGE_ID, id);
-        return intent;
     }
 
 

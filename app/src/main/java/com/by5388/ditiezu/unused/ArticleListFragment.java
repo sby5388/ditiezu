@@ -17,17 +17,17 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-
 import com.by5388.ditiezu.MenuTools;
 import com.by5388.ditiezu.R;
 import com.by5388.ditiezu.databinding.FragmentPageDetailBinding;
 
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * @author Administrator  on 2019/12/18.
@@ -36,9 +36,9 @@ import java.util.Objects;
 public class ArticleListFragment extends Fragment {
     private static final String TAG = "ArticleDetailFragment";
     private static final String ARTICLE_URL = "article_url";
+    private static final String BASE_URL = "http://www.ditiezu.com/";
     private String mUrl;
     private WebView mWebView;
-    private static final String BASE_URL = "http://www.ditiezu.com/";
 
     public static ArticleListFragment newInstance(String url) {
         final ArticleListFragment fragment = new ArticleListFragment();

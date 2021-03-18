@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Toast;
 
 import com.by5388.ditiezu.DitiezuApp;
@@ -22,7 +20,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -37,10 +34,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
     private MainFragmentAdapter mAdapter;
     private Toast mToast;
 
+    public static Intent newIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main3);
+        setContentView(R.layout.activity_main);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -50,39 +51,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    public static Intent newIntent(Context context) {
-        return new Intent(context, MainActivity.class);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        if (true) {
-            return true;
-        }
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        // TODO: 2019/12/24 不生效 
-        // FIXME: 2019/12/24
-        searchView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int action = event.getAction();
-                if (action == MotionEvent.ACTION_DOWN) {
-                    return true;
-                }
-                if (action == MotionEvent.ACTION_UP) {
-                    final boolean login = DitiezuApp.getInstance().isLogin();
-                    if (login) {
-                        v.performClick();
-                        return true;
-                    } else {
-                        Toast.makeText(MainActivity.this, "请登录后操作", Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
         return true;
     }
 
@@ -91,8 +62,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
         switch (item.getItemId()) {
             case R.id.menu_search:
                 // TODO: 2019/12/28
-//                final boolean login = DitiezuApp.getInstance().isLogin();
-                final boolean login = true;
+                final boolean login = DitiezuApp.getInstance().isLogin();
+//                final boolean login = true;
                 if (!login) {
                     startActivity(LoginActivity.newIntent(this));
                 } else {

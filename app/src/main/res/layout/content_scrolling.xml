@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".temp.ScrollingActivity"
-    tools:showIn="@layout/activity_scrolling">
+    tools:showIn="@layout/fragment_article_list">
 
     <TextView
         android:layout_width="wrap_content"

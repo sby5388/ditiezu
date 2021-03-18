@@ -13,12 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-
 import com.by5388.ditiezu.DitiezuApp;
 import com.by5388.ditiezu.MenuTools;
 import com.by5388.ditiezu.R;
@@ -27,14 +21,20 @@ import com.by5388.ditiezu.databinding.FragmentArticleDetailBinding;
 import java.io.IOException;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
 /**
  * @author Administrator  on 2019/12/18.
  */
 public class ArticleDetailFragment extends Fragment {
     private static final String TAG = "ArticleDetailFragment";
     private static final String ARTICLE_URL = "article_url";
-    private String mUrl;
     private static final String BASE_URL = "http://www.ditiezu.com/";
+    private String mUrl;
     private FragmentArticleDetailBinding mBinding;
     private CommentAdapter mAdapter;
     private DetailTool mTool;
@@ -107,12 +107,16 @@ public class ArticleDetailFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_article_detail, container, false);
-        mBinding.setFragment(this);
-        mBinding.recyclerView.setAdapter(mAdapter);
-        loadData();
         return mBinding.getRoot();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mBinding.setFragment(this);
+        mBinding.recyclerView.setAdapter(mAdapter);
+        loadData();
+    }
 
     private void loadData() {
         DitiezuApp.getInstance().execute(new Runnable() {
@@ -131,7 +135,7 @@ public class ArticleDetailFragment extends Fragment {
                             Toast.makeText(getContext(), "数据错误", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        mAdapter.setCommentBeans(detailBean.getCommentBeans());
+                        mAdapter.setCommentBeans(detailBean);
                         mBinding.buttonMainReply.setText(detailBean.getReply());
                         mBinding.textViewOrigin.setText(detailBean.getMainContent());
                         mBinding.buttonMainReply.setText(detailBean.getReply());

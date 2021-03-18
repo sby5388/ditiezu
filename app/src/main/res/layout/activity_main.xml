@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".main.MainActivity">
 
+    <!--    todo 选择菜单上的颜色不符合样式-->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +18,7 @@
             android:layout_height="?android:attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways" />
 
-        <!-- todo 20191222:  app:tabMode="scrollable" 开启横线滚动-->
+        <!-- todo 20191222:  app:tabMode="scrollable" 开启横向滚动-->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"

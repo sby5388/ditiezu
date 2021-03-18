@@ -8,16 +8,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.by5388.ditiezu.bean.ChooseItem;
+
+import java.util.List;
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-
-import com.by5388.ditiezu.bean.ChooseItem;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Administrator  on 2019/12/21.
@@ -40,6 +40,14 @@ public class FilterDialogFragment extends DialogFragment {
         args.putCharSequenceArray(CHOOSE_LIST_ARRAY, array);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static int getIndex(@Nullable Intent intent) {
+        final int defaultIndex = 0;
+        if (intent == null) {
+            return defaultIndex;
+        }
+        return intent.getIntExtra(LIST_INDEX, defaultIndex);
     }
 
     public void setIndex(int index) {
@@ -90,13 +98,5 @@ public class FilterDialogFragment extends DialogFragment {
                 .setNegativeButton(android.R.string.cancel, null)
                 .setCancelable(true)
                 .create();
-    }
-
-    public static int getIndex(@Nullable Intent intent) {
-        final int defaultIndex = 0;
-        if (intent == null) {
-            return defaultIndex;
-        }
-        return intent.getIntExtra(LIST_INDEX, defaultIndex);
     }
 }

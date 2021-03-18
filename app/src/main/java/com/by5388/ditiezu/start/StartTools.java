@@ -15,6 +15,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.WorkerThread;
+
 /**
  * @author by5388  on 2019/12/22.
  */
@@ -24,23 +26,19 @@ public class StartTools {
     private List<ModuleBean> mModuleBeans;
     private boolean mLoading = false;
 
-    public List<ModuleBean> getModuleBeans() {
-        return mModuleBeans;
+    private StartTools() {
+        mModuleBeans = new ArrayList<>();
     }
 
     public static StartTools getInstance() {
         return Singleton.INSTANCE;
     }
 
-    private static class Singleton {
-        private static final StartTools INSTANCE = new StartTools();
+    public List<ModuleBean> getModuleBeans() {
+        return mModuleBeans;
     }
 
-
-    private StartTools() {
-        mModuleBeans = new ArrayList<>();
-    }
-
+    @WorkerThread
     public synchronized void loadData() throws IOException {
         if (mLoading) {
             return;
@@ -83,5 +81,9 @@ public class StartTools {
         }
         mLoading = false;
 
+    }
+
+    private static class Singleton {
+        private static final StartTools INSTANCE = new StartTools();
     }
 }

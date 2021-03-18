@@ -18,14 +18,14 @@ import java.util.Locale;
  * @author Administrator  on 2019/12/19.
  */
 final class PublishTools {
-    private final int mPageId;
-    private final boolean mVote;
-    private final List<ChooseItem> mChooseItems;
     private static final String PUBLISH_NORMAL = "http://www.ditiezu.com/forum.php?mod=post&action=newthread&fid=%d&mobile=yes";
     private static final String PUBLISH_VOTE = "http://www.ditiezu.com/forum.php?mod=post&action=newthread&fid=%d&special=1&mobile=yes";
     //http://www.ditiezu.com/forum.php?mod=post&action=newthread&fid=46&special=1&mobile=yes 投票
     //http://www.ditiezu.com/forum.php?mod=post&action=newthread&fid=46&mobile=yes 正常
     public final String mUrl;
+    private final int mPageId;
+    private final boolean mVote;
+    private final List<ChooseItem> mChooseItems;
 
     PublishTools(int pageId, boolean vote) {
         mPageId = pageId;

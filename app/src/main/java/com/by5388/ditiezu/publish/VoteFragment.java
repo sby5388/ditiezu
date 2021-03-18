@@ -14,12 +14,11 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 /**
  * @author by5388  on 2019/12/15.
  */
-public class VoteFragment extends Fragment {
+public class VoteFragment extends BasePublishFragment {
     public static final String TAG = "VoteFragment";
     private static final String PAGE_ID = "pageId";
     private Handler mHandler = new Handler();
@@ -46,6 +45,12 @@ public class VoteFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_vote, container, false);
+        mBinding.buttonUploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onUploadPicture();
+            }
+        });
         return mBinding.getRoot();
     }
 }

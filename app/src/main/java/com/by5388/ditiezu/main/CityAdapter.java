@@ -3,15 +3,15 @@ package com.by5388.ditiezu.main;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.by5388.ditiezu.R;
 import com.by5388.ditiezu.databinding.ItemListCityBinding;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author by5388  on 2019/12/22.
@@ -49,9 +49,9 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder> {
         return mCityBeans.size();
     }
 
-    class CityHolder extends RecyclerView.ViewHolder {
-        private ItemListCityBinding mBinding;
+    static class CityHolder extends RecyclerView.ViewHolder {
         private static final String BASE_URL = "http://www.ditiezu.com/";
+        private ItemListCityBinding mBinding;
 
         CityHolder(@NonNull ItemListCityBinding binding) {
             super(binding.getRoot());

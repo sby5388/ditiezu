@@ -7,13 +7,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.by5388.ditiezu.R;
+import com.by5388.ditiezu.databinding.FragmentSearchBinding;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-
-import com.by5388.ditiezu.R;
-import com.by5388.ditiezu.databinding.FragmentSearchBinding;
 
 /**
  * @author Administrator  on 2019/12/24.
@@ -22,12 +22,12 @@ public class SearchFragment extends Fragment {
     private FragmentSearchBinding mBinding;
     private SearchAdapter mSearchAdapter;
 
-    public SearchAdapter getSearchAdapter() {
-        return mSearchAdapter;
-    }
-
     public static SearchFragment newInstance() {
         return new SearchFragment();
+    }
+
+    public SearchAdapter getSearchAdapter() {
+        return mSearchAdapter;
     }
 
     @Override

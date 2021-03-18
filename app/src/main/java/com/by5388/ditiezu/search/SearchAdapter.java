@@ -6,19 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.by5388.ditiezu.R;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.by5388.ditiezu.R;
 
 /**
  * @author by5388  on 2019/12/28.
  */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHolder> {
-    public interface Callback {
-        void onTouch(String query);
-    }
-
     private Callback mCallback;
 
     public SearchAdapter(Callback callback) {
@@ -42,6 +38,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
     @Override
     public int getItemCount() {
         return 10;
+    }
+
+    public interface Callback {
+        void onTouch(String query);
     }
 
     class SearchHolder extends RecyclerView.ViewHolder {

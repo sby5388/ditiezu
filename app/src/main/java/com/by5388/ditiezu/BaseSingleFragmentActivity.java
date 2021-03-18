@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentManager;
 /**
  * @author by5388  on 2019/12/15.
  */
-public abstract class SingleFragmentActivity extends AppCompatActivity {
+public abstract class BaseSingleFragmentActivity extends AppCompatActivity {
     public abstract Fragment createFragment();
 
     @Override
@@ -22,7 +22,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final Fragment fragment = fragmentManager.findFragmentById(R.id.container);
         if (fragment == null) {
-            fragmentManager.beginTransaction().add(R.id.container, createFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.container, createFragment()).commit();
         }
     }
 

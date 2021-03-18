@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="question_item">
+        <item>安全提问(未设置请忽略)</item>
+        <item>母亲的名字</item>
+        <item>爷爷的名字</item>
+        <item>父亲出生的城市</item>
+        <item>你其中一位老师的名字</item>
+        <item>你个人计算机的型号</item>
+        <item>你最喜欢的餐馆名称</item>
+        <item>驾驶执照最后四位数字</item>
+    </string-array>
+
+    <integer-array name="question_id">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </integer-array>
+</resources>

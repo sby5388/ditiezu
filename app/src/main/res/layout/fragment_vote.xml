@@ -13,38 +13,26 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
-            <TextView
-                android:id="@+id/textView_vote_tip_0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/vote_tip_0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView_vote_tip_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/vote_tip_1"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/editText_input_vote_list"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_vote_item_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:minHeight="120dp"
-                android:gravity="top"
-                android:singleLine="false"
-                app:layout_constraintTop_toBottomOf="@id/textView_vote_tip_0" />
+                android:hint="@string/vote_tip"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_input_vote_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minLines="3" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/editText_input_vote_list">
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_vote_item_hint">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -115,38 +103,41 @@
                 android:text="@string/select_theme"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@id/spinner"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@id/spinner" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textView_article_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/article_title"
-                android:textSize="20sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner" />
-
-            <EditText
-                android:id="@+id/editText_article_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:inputType="text"
-                app:layout_constraintTop_toBottomOf="@id/textView_article_title" />
+                android:hint="@string/article_title"
+                app:layout_constraintTop_toBottomOf="@id/spinner">
 
-            <EditText
-                android:id="@+id/editText_article_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_article_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:textAlignment="viewStart" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editText_article_content_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:gravity="top"
-                android:inputType="text"
-                android:minHeight="120dp"
-                android:minLines="3"
-                android:singleLine="false"
-                app:layout_constraintBottom_toTopOf="@id/button_submit"
-                app:layout_constraintTop_toBottomOf="@id/editText_article_title" />
+                android:hint="@string/article_content"
+                app:layout_constraintTop_toBottomOf="@id/textView_article_title">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_input_editText_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minLines="3"
+                    android:textAlignment="viewStart" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <Button
@@ -156,10 +147,9 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:text="@string/submit_article"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/button_upload_image"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editText_article_content_layout" />
 
             <Button
                 android:id="@+id/button_upload_image"
@@ -168,9 +158,9 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:text="@string/upload_image"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_submit" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

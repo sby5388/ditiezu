@@ -15,8 +15,10 @@
     <string name="article_title">标题</string>
     <string name="upload_image">上传图片</string>
     <string name="submit_article">发表帖子</string>
+    <string name="vote_tip">最多可填写 50 个选项:(每行填写 1 个选项)</string>
     <string name="vote_tip_0">最多可填写 50 个选项:</string>
     <string name="vote_tip_1">(每行填写 1 个选项)</string>
+
     <string name="title_activity_scrolling" translatable="false">ScrollingActivity</string>
     <string name="large_text" translatable="false">
         "Material is the metaphor.\n\n"
@@ -129,4 +131,11 @@
     <string name="article_wenzhang">文章</string>
     <string name="search_hot">热搜:</string>
     <string name="reply">回复</string>
+    <string name="setting">设置</string>
+    <string name="publish_service">推送服务</string>
+    <string name="publish_service_enable">是否开启消息推送</string>
+    <string name="publish_service_summary_on">将收到新的消息提醒</string>
+    <string name="publish_service_summary_off">将不会收到新的消息提醒</string>
+    <string name="article_content">请输入正文</string>
+    <string name="loading">加载中...</string>
 </resources>

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.by5388.ditiezu.main.MainActivity;
-import com.by5388.ditiezu.me.MeActivity;
+import com.by5388.ditiezu.settings.SettingsActivity;
 
 /**
  * @author Administrator  on 2019/12/21.
@@ -25,6 +25,7 @@ public class MenuTools {
         if (context == null) {
             throw new NullPointerException("context == null");
         }
-        context.startActivity(MeActivity.newIntent(context));
+//        context.startActivity(MeActivity.newIntent(context));
+        context.startActivity(SettingsActivity.newIntent(context));
     }
 }

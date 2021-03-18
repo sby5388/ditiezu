@@ -38,77 +38,12 @@ public class ArticleDetailBean {
     private String mReplyCount;
 
 
-
     public ArticleDetailBean() {
         mCommentBeans = new ArrayList<>();
     }
 
     void addComment(ArticleCommentBean bean) {
         this.mCommentBeans.add(bean);
-    }
-
-    public void setSortName(String sortName) {
-        mSortName = sortName;
-    }
-
-    public void setSortType(int sortType) {
-        mSortType = sortType;
-    }
-
-    public void setSortUrl(String sortUrl) {
-        mSortUrl = sortUrl;
-    }
-
-    public void setReplyCount(String replyCount) {
-        mReplyCount = replyCount;
-    }
-
-    public void setReply(String reply) {
-        mReply = reply;
-    }
-
-    public void setReplyUrl(String replyUrl) {
-        mReplyUrl = replyUrl;
-    }
-
-    public void setContentId(String contentId) {
-        mContentId = contentId;
-    }
-
-    public void setDate(String date) {
-        mDate = date;
-    }
-
-    public void setMainContent(String mainContent) {
-        mMainContent = mainContent;
-    }
-
-    public void setAuthorName(String authorName) {
-        mAuthorName = authorName;
-    }
-
-    public void setAuthorUrl(String authorUrl) {
-        mAuthorUrl = authorUrl;
-    }
-
-    public void setFav(String fav) {
-        mFav = fav;
-    }
-
-    public void setFavUrl(String favUrl) {
-        mFavUrl = favUrl;
-    }
-
-    public void setUrl(String url) {
-        mUrl = url;
-    }
-
-    public void setPostId(String postId) {
-        mPostId = postId;
-    }
-
-    public void setTitle(String title) {
-        mTitle = title;
     }
 
     public List<ArticleCommentBean> getCommentBeans() {
@@ -119,63 +54,127 @@ public class ArticleDetailBean {
         return mPostId;
     }
 
+    public void setPostId(String postId) {
+        mPostId = postId;
+    }
+
     public String getTitle() {
         return mTitle;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
     public String getUrl() {
         return mUrl;
     }
 
+    public void setUrl(String url) {
+        mUrl = url;
+    }
+
     public String getFav() {
         return mFav;
+    }
+
+    public void setFav(String fav) {
+        mFav = fav;
     }
 
     public String getFavUrl() {
         return mFavUrl;
     }
 
+    public void setFavUrl(String favUrl) {
+        mFavUrl = favUrl;
+    }
+
     public String getAuthorName() {
         return mAuthorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        mAuthorName = authorName;
     }
 
     public String getAuthorUrl() {
         return mAuthorUrl;
     }
 
+    public void setAuthorUrl(String authorUrl) {
+        mAuthorUrl = authorUrl;
+    }
+
     public String getMainContent() {
         return mMainContent;
+    }
+
+    public void setMainContent(String mainContent) {
+        mMainContent = mainContent;
     }
 
     public String getDate() {
         return mDate;
     }
 
+    public void setDate(String date) {
+        mDate = date;
+    }
+
     public String getContentId() {
         return mContentId;
+    }
+
+    public void setContentId(String contentId) {
+        mContentId = contentId;
     }
 
     public String getReply() {
         return mReply;
     }
 
+    public void setReply(String reply) {
+        mReply = reply;
+    }
+
     public String getReplyUrl() {
         return mReplyUrl;
+    }
+
+    public void setReplyUrl(String replyUrl) {
+        mReplyUrl = replyUrl;
     }
 
     public String getSortName() {
         return mSortName;
     }
 
+    public void setSortName(String sortName) {
+        mSortName = sortName;
+    }
+
     public int getSortType() {
         return mSortType;
+    }
+
+    public void setSortType(int sortType) {
+        mSortType = sortType;
     }
 
     public String getSortUrl() {
         return mSortUrl;
     }
 
+    public void setSortUrl(String sortUrl) {
+        mSortUrl = sortUrl;
+    }
+
     public String getReplyCount() {
         return mReplyCount;
+    }
+
+    public void setReplyCount(String replyCount) {
+        mReplyCount = replyCount;
     }
 }

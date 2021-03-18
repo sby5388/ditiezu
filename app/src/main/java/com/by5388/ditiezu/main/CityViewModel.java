@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.by5388.ditiezu.article.list.ArticleListActivity;
+import com.by5388.ditiezu.article.list.ArticleListActivityBase;
 
 import androidx.annotation.Keep;
 
@@ -41,7 +41,7 @@ public class CityViewModel {
     @Keep
     public void toDetail(View view) {
         final Context context = view.getContext();
-        final Intent intent = ArticleListActivity.newIntent(context, mCityBean);
+        final Intent intent = ArticleListActivityBase.newIntent(context, mCityBean);
         context.startActivity(intent);
     }
 }

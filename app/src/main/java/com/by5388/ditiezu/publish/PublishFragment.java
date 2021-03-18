@@ -14,12 +14,11 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 /**
  * @author by5388  on 2019/12/15.
  */
-public class PublishFragment extends Fragment {
+public class PublishFragment extends BasePublishFragment {
     public static final String TAG = "PublishFragment";
     private static final String PAGE_ID = "pageId";
     private Handler mHandler = new Handler();
@@ -46,7 +45,14 @@ public class PublishFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_publish, container, false);
+        mBinding.buttonUploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onUploadPicture();
+            }
+        });
         return mBinding.getRoot();
 
+//        return inflater.inflate(R.layout.activity_temp, container, false);
     }
 }

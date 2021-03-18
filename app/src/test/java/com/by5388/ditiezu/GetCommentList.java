@@ -16,8 +16,8 @@ import java.util.List;
  * @author Administrator  on 2019/12/18.
  */
 public class GetCommentList {
-    private final String mUrl;
     private static final String BASE_URL = "http://www.ditiezu.com/";
+    private final String mUrl;
     private List<ArticleCommentBean> mCommentBeans = new ArrayList<>();
 
     public GetCommentList(String url) {

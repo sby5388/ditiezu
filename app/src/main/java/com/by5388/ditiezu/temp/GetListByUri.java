@@ -31,12 +31,13 @@ import java.util.Locale;
 public class GetListByUri {
     public static final String BASE_URL = "http://www.ditiezu.com/";
     private static final String BASE_URL_0 = "http://www.ditiezu.com/forum.php?mod=forumdisplay&fid=%d&mobile=yes";
+    private static final String CHOOSE_ITEM_END = "&mobile=yes\" ";
     //    public static final String base_url ="http://www.ditiezu.com/forum.php?mod=forumdisplay&fid=46&page=1";
     private final String CHOOSE_ITEM_START;
-    private static final String CHOOSE_ITEM_END = "&mobile=yes\" ";
-
     private final int mId;
     private final String mUrl;
+    private List<ChooseItem> mChooseItems = new ArrayList<>();
+    private List<ArticleBean> mArticles = new ArrayList<>();
 
     public GetListByUri(int id) {
         mId = id;
@@ -44,10 +45,6 @@ public class GetListByUri {
 
         mUrl = String.format(Locale.getDefault(), BASE_URL_0, mId);
     }
-
-    private List<ChooseItem> mChooseItems = new ArrayList<>();
-
-    private List<ArticleBean> mArticles = new ArrayList<>();
 
     public List<ChooseItem> getChooseItems() {
         return mChooseItems;

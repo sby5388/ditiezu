@@ -4,7 +4,6 @@ import com.by5388.ditiezu.temp.GetListByUri;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
  * @author Administrator  on 2019/12/16.

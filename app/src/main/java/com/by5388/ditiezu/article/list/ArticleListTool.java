@@ -4,8 +4,6 @@ import android.net.TrafficStats;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import androidx.annotation.NonNull;
-
 import com.by5388.ditiezu.bean.ArticleBean;
 import com.by5388.ditiezu.bean.ChooseItem;
 
@@ -16,9 +14,11 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * @author by5388  on 2019/12/17.
@@ -34,72 +34,17 @@ public final class ArticleListTool {
     //http://ditiezu.com/forum.php?mod=forumdisplay&fid=23&mobile=yes&filter=typeid&typeid=231
 
     private final int mPid;
+    private final List<ArticleBean> mArticleBeans;
+    private final List<ChooseItem> mChooseItems;
     private String mUrl;
     private String mDescribe = null;
     private QueryParam mCurrentQueryParam;
-
-    private final List<ArticleBean> mArticleBeans;
-    private final List<ChooseItem> mChooseItems;
 
     public ArticleListTool(int pid) {
         mPid = pid;
 
         mArticleBeans = new ArrayList<>();
         mChooseItems = new ArrayList<>();
-    }
-
-    public boolean enableLoadNextPage() {
-        if (mCurrentQueryParam != null) {
-            // TODO: 2019/12/18 getMaxPage
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isFirstPage() {
-        return mCurrentQueryParam != null && mCurrentQueryParam.page == 1;
-    }
-
-    public boolean enableLoadPrePage() {
-        return mCurrentQueryParam != null && mCurrentQueryParam.page > 1;
-    }
-
-
-    public void loadData(QueryParam queryParam) throws MalformedURLException, IOException {
-        if (queryParam.fid != mPid) {
-            queryParam.fid = mPid;
-        }
-        this.mCurrentQueryParam = queryParam;
-        mArticleBeans.clear();
-        TrafficStats.setThreadStatsTag(10086);
-        final Document parse = Jsoup.connect(queryParam.toString()).userAgent("iPhone").cookie("auth", "token").get();
-        loadData(parse);
-    }
-
-    private void loadData(Document parse) {
-        parse.charset(Charset.forName("utf-8"));
-        final Elements topElements = parse.select("div[class=close]")
-                .select("div[class=content]")
-                .select("div[class=wp]")
-                .select("div[class=ct]");
-        if (TextUtils.isEmpty(mDescribe)) {
-            mDescribe = topElements.select("div[class=pt]").select("p").text();
-        }
-
-        if (mChooseItems.isEmpty()) {
-            //init chooseItems
-            final Elements selectItems = topElements.select("div[class=thtyss]").select("a");
-            for (Element item : selectItems) {
-                final String name = item.text();
-                final String path = item.attr("href");
-                mChooseItems.add(new ChooseItem(path, name));
-            }
-        }
-        //init article list
-        final Elements allList = topElements.select("ul[id=alist]").select("li");
-        for (Element element : allList) {
-            mArticleBeans.add(createArticleBean(element));
-        }
     }
 
     private static ArticleBean createArticleBean(Element element) {
@@ -125,6 +70,58 @@ public final class ArticleListTool {
         return articleBean;
     }
 
+    public boolean enableLoadNextPage() {
+        if (mCurrentQueryParam != null) {
+            // TODO: 2019/12/18 getMaxPage
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFirstPage() {
+        return mCurrentQueryParam != null && mCurrentQueryParam.page == 1;
+    }
+
+    public boolean enableLoadPrePage() {
+        return mCurrentQueryParam != null && mCurrentQueryParam.page > 1;
+    }
+
+    public void loadData(QueryParam queryParam) throws MalformedURLException, IOException {
+        if (queryParam.fid != mPid) {
+            queryParam.fid = mPid;
+        }
+        this.mCurrentQueryParam = queryParam;
+        mArticleBeans.clear();
+        TrafficStats.setThreadStatsTag(10086);
+        final Document parse = Jsoup.connect(queryParam.toString()).userAgent("iPhone").cookie("auth", "token").get();
+        loadData(parse);
+    }
+
+    private void loadData(Document parse) {
+        parse.charset(StandardCharsets.UTF_8);
+        final Elements topElements = parse.select("div[class=close]")
+                .select("div[class=content]")
+                .select("div[class=wp]")
+                .select("div[class=ct]");
+        if (TextUtils.isEmpty(mDescribe)) {
+            mDescribe = topElements.select("div[class=pt]").select("p").text();
+        }
+
+        if (mChooseItems.isEmpty()) {
+            //init chooseItems
+            final Elements selectItems = topElements.select("div[class=thtyss]").select("a");
+            for (Element item : selectItems) {
+                final String name = item.text();
+                final String path = item.attr("href");
+                mChooseItems.add(new ChooseItem(path, name));
+            }
+        }
+        //init article list
+        final Elements allList = topElements.select("ul[id=alist]").select("li");
+        for (Element element : allList) {
+            mArticleBeans.add(createArticleBean(element));
+        }
+    }
 
     public List<ArticleBean> getArticleBeans() {
         return mArticleBeans;
@@ -173,9 +170,13 @@ public final class ArticleListTool {
             private int page = 1;
             private int fid = 46;
             private String filter = "";
-            private String typeid = "";
+            private String typeId = "";
 
             public Builder() {
+            }
+
+            public int getPage() {
+                return page;
             }
 
             public Builder setPage(int page) {
@@ -183,9 +184,29 @@ public final class ArticleListTool {
                 return this;
             }
 
+            public Builder nextPage() {
+                this.page++;
+                return this;
+            }
+
+            public Builder prePage() {
+                if (this.page > 1) {
+                    this.page--;
+                }
+                return this;
+            }
+
+            public int getFid() {
+                return fid;
+            }
+
             public Builder setFid(int fid) {
                 this.fid = fid;
                 return this;
+            }
+
+            public String getFilter() {
+                return filter;
             }
 
             public Builder setFilter(String filter) {
@@ -193,35 +214,23 @@ public final class ArticleListTool {
                 return this;
             }
 
-            public Builder setTypeid(String typeid) {
-                this.typeid = typeid;
+            public String getTypeId() {
+                return typeId;
+            }
+
+            public Builder setTypeId(String typeId) {
+                this.typeId = typeId;
                 return this;
-            }
-
-            public int getPage() {
-                return page;
-            }
-
-            public int getFid() {
-                return fid;
-            }
-
-            public String getFilter() {
-                return filter;
-            }
-
-            public String getTypeid() {
-                return typeid;
             }
 
             public QueryParam build() {
                 final QueryParam queryParam = new QueryParam();
                 queryParam.page = this.page;
                 queryParam.fid = this.fid;
-                if (FILTER_TYPE.equals(filter) && !TextUtils.isEmpty(typeid)) {
+                if (FILTER_TYPE.equals(filter) && !TextUtils.isEmpty(typeId)) {
                     queryParam.filter = this.filter;
-                    queryParam.typeid = this.typeid;
-                }else{
+                    queryParam.typeid = this.typeId;
+                } else {
 
                 }
                 return queryParam;

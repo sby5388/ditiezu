@@ -15,26 +15,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.by5388.ditiezu.DitiezuApp;
+import com.by5388.ditiezu.MenuTools;
+import com.by5388.ditiezu.R;
+import com.by5388.ditiezu.bean.ChooseItem;
+import com.by5388.ditiezu.databinding.FragmentArticleListBinding;
+import com.by5388.ditiezu.publish.PublishActivity;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import com.bumptech.glide.Glide;
-import com.by5388.ditiezu.DitiezuApp;
-import com.by5388.ditiezu.R;
-import com.by5388.ditiezu.bean.ChooseItem;
-import com.by5388.ditiezu.databinding.ActivityScrollingBinding;
-import com.by5388.ditiezu.MenuTools;
-import com.by5388.ditiezu.publish.PublishActivity;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Administrator  on 2019/12/17.
@@ -47,7 +48,7 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
     private static final String BASE_URL = "http://www.ditiezu.com/";
     private static final String INTEGER_INDEX = "index";
     private static final String STRING_TITLE = "title";
-    private static final String STRING_TITLE2 = "title2";
+    private static final String STRING_DESCRIBE = "describe";
     private static final String STRING_ICON_URL = "icon_url";
     private static final int DEFAULT_INDEX = 46;
     private static final int REQUEST_CODE_FILTER = 100;
@@ -55,66 +56,13 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
     private int mIndex = DEFAULT_INDEX;
     private ArticleAdapter mAdapter;
     private ArticleListTool mTool;
-    private ActivityScrollingBinding mBinding;
+    private FragmentArticleListBinding mBinding;
     private List<ChooseItem> mChooseItems;
     private Handler mHandler = new Handler();
     private int mListIndex = 0;
     private String mIconUrl;
     private FilterDialogFragment mDialogFragment;
     private ArticleListTool.QueryParam.Builder mBuild = new ArticleListTool.QueryParam.Builder();
-
-    public static ArticleListFragment newInstance(final int index, final String title, final String title2, String iconUrl) {
-        final ArticleListFragment fragment = new ArticleListFragment();
-        final Bundle args = new Bundle();
-        args.putInt(INTEGER_INDEX, index);
-        args.putString(STRING_TITLE, title);
-        args.putString(STRING_TITLE2, title2);
-        args.putString(STRING_ICON_URL, iconUrl);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: ");
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
-        final Bundle arguments = getArguments();
-        if (arguments != null) {
-            mIndex = arguments.getInt(INTEGER_INDEX, DEFAULT_INDEX);
-            mIconUrl = arguments.getString(STRING_ICON_URL);
-            title2 = arguments.getString(STRING_TITLE2);
-            Log.d(TAG, "onCreate: mIconUrl = " + mIconUrl);
-        }
-        mAdapter = new ArticleAdapter();
-        mAdapter.setCallback(this);
-        mTool = new ArticleListTool(mIndex);
-
-        final DitiezuApp app = DitiezuApp.getInstance();
-        app.getExecutor().execute(mRunnableGetData);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        final FragmentActivity activity = getActivity();
-        if (activity == null) {
-            Log.d(TAG, "onResume: " + "activity == null");
-            return;
-        }
-        final Bundle arguments = getArguments();
-        if (arguments != null) {
-            final String title = arguments.getString(STRING_TITLE);
-            if (TextUtils.isEmpty(title)) {
-                return;
-            }
-            activity.setTitle(title);
-        }
-    }
-
     /**
      * run on workerThread
      */
@@ -157,14 +105,68 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
         }
     };
 
+    public static ArticleListFragment newInstance(final int index, final String title, final String describe, String iconUrl) {
+        final ArticleListFragment fragment = new ArticleListFragment();
+        final Bundle args = new Bundle();
+        args.putInt(INTEGER_INDEX, index);
+        args.putString(STRING_TITLE, title);
+        args.putString(STRING_DESCRIBE, describe);
+        args.putString(STRING_ICON_URL, iconUrl);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
+        setHasOptionsMenu(true);
+        final Bundle arguments = getArguments();
+        if (arguments != null) {
+            mIndex = arguments.getInt(INTEGER_INDEX, DEFAULT_INDEX);
+            mIconUrl = arguments.getString(STRING_ICON_URL);
+            title2 = arguments.getString(STRING_DESCRIBE);
+            Log.d(TAG, "onCreate: mIconUrl = " + mIconUrl);
+        }
+        mAdapter = new ArticleAdapter();
+        mAdapter.setCallback(this);
+        mTool = new ArticleListTool(mIndex);
+
+        final DitiezuApp app = DitiezuApp.getInstance();
+        app.getExecutor().execute(mRunnableGetData);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final FragmentActivity activity = requireActivity();
+        final Bundle arguments = getArguments();
+        if (arguments == null) {
+            return;
+        }
+        final String title = arguments.getString(STRING_TITLE);
+        if (TextUtils.isEmpty(title)) {
+            return;
+        }
+        activity.setTitle(title);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.activity_scrolling, container, false);
-        final AppCompatActivity activity = Objects.requireNonNull((AppCompatActivity) getActivity());
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_article_list, container, false);
+        final AppCompatActivity activity = (AppCompatActivity) requireActivity();
+        // TODO: 2021/3/18 hide
         activity.setSupportActionBar(mBinding.toolbar);
+        final ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         mBinding.setFragment(this);
         if (!TextUtils.isEmpty(mIconUrl)) {
+            // TODO: 2021/3/18 需要缓存到本地
             Glide.with(this).load(BASE_URL + mIconUrl).into(mBinding.icon);
         }
         if (!TextUtils.isEmpty(title2)) {
@@ -218,6 +220,9 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
             case R.id.menu_me:
                 MenuTools.toMe(getContext());
                 return true;
+            case android.R.id.home:
+                requireActivity().finish();
+                return true;
             default:
                 break;
         }
@@ -244,11 +249,11 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
             return;
         }
         mDialogFragment.setIndex(mListIndex);
-        mDialogFragment.show(Objects.requireNonNull(getFragmentManager()), FILTER_TAG);
+        mDialogFragment.show(requireFragmentManager(), FILTER_TAG);
     }
 
     private int getColor(int colorId) {
-        final Context context = Objects.requireNonNull(getContext());
+        final Context context = requireContext();
         return getResources().getColor(colorId, context.getTheme());
     }
 
@@ -259,7 +264,8 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
     @Override
     public void changePrePage() {
         if (mTool.enableLoadPrePage()) {
-            mBuild.setPage(mBuild.getPage() - 1);
+            //mBuild.setPage(mBuild.getPage() - 1);
+            mBuild.prePage();
             mAdapter.clear();
             final DitiezuApp app = DitiezuApp.getInstance();
             app.execute(mRunnableGetData);
@@ -269,7 +275,8 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
     @Override
     public void changeNextPage() {
         if (mTool.enableLoadNextPage()) {
-            mBuild.setPage(mBuild.getPage() + 1);
+            //mBuild.setPage(mBuild.getPage() + 1);
+            mBuild.nextPage();
             mAdapter.clear();
             final DitiezuApp app = DitiezuApp.getInstance();
             app.execute(mRunnableGetData);
@@ -304,14 +311,14 @@ public class ArticleListFragment extends Fragment implements ArticleAdapter.Page
                             mBuild.setFilter(map[1]);
                             filter = true;
                         } else if ("typeid".equals(map[0])) {
-                            mBuild.setTypeid(map[1]);
+                            mBuild.setTypeId(map[1]);
                             filter = true;
                         }
                     }
                 }
                 if (!filter) {
                     mBuild.setFilter("");
-                    mBuild.setTypeid("");
+                    mBuild.setTypeId("");
                 }
                 mAdapter.clear();
                 final DitiezuApp app = DitiezuApp.getInstance();

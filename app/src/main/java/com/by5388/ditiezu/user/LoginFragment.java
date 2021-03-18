@@ -28,7 +28,7 @@ import androidx.fragment.app.Fragment;
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
     private FragmentLoginBinding mBinding;
-    private boolean mShowSecureQuestion = false;
+    private boolean mShowSecureQuestion = true;
     private Handler mHandler = new Handler();
     private Callback mCallback;
     private LoginTools mTools;
@@ -36,14 +36,6 @@ public class LoginFragment extends Fragment {
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
-    }
-
-
-    public interface Callback {
-        void onLoginSuccess(UserBean userBean);
-
-        void onLoginFail(String message);
-
     }
 
     @Override
@@ -113,5 +105,12 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public interface Callback {
+        void onLoginSuccess(UserBean userBean);
+
+        void onLoginFail(String message);
+
     }
 }

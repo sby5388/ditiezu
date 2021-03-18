@@ -7,11 +7,6 @@ public class ArticleBean {
     public static final String STRING_TAG_TOP = "./mplus/img/p_1.png";
     public static final String STRING_TAG_VOTE = "./mplus/img/p1.png";
     public static final String STRING_TAG_CLOSE = "./mplus/img/l1.png";
-
-    public enum ArticleType {
-        Normal, Vote, Top, Close
-    }
-
     /**
      * String-url
      */
@@ -23,6 +18,13 @@ public class ArticleBean {
     public int mType;
     private ArticleType mArticleType = ArticleType.Normal;
     private String mTag;
+    public ArticleBean(String url, String title, String author, String date, String comment) {
+        mUrl = url;
+        mTitle = title;
+        mAuthor = author;
+        mComment = comment;
+        mDate = date;
+    }
 
     public void setTag(String tag) {
         mTag = tag;
@@ -46,11 +48,7 @@ public class ArticleBean {
         return mArticleType;
     }
 
-    public ArticleBean(String url, String title, String author, String date, String comment) {
-        mUrl = url;
-        mTitle = title;
-        mAuthor = author;
-        mComment = comment;
-        mDate = date;
+    public enum ArticleType {
+        Normal, Vote, Top, Close
     }
 }

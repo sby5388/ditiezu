@@ -1,11 +1,11 @@
 package com.by5388.ditiezu.main;
 
+import com.by5388.ditiezu.DitiezuApp;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
-import com.by5388.ditiezu.DitiezuApp;
 
 /**
  * @author by5388  on 2019/12/22.

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/publish_service">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="switch_enable_publish_service"
+            android:summaryOff="@string/publish_service_summary_off"
+            android:summaryOn="@string/publish_service_summary_on"
+            android:title="@string/publish_service_enable" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

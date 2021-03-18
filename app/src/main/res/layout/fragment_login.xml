@@ -31,7 +31,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/container_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,25 +39,37 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/drawable_login_bg"
+                android:orientation="vertical"
                 android:padding="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/image_login_in">
 
-                <EditText
-                    android:id="@+id/editText_account"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_account"
-                    android:inputType="text"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:hint="@string/hint_account">
 
-                <EditText
-                    android:id="@+id/editText_password"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_password"
-                    android:inputType="textPassword"
-                    app:layout_constraintTop_toBottomOf="@id/editText_account" />
+                    android:hint="@string/hint_password">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <EditText
                     android:id="@+id/editText_secure_code"
@@ -83,6 +95,7 @@
                     android:id="@+id/spinner_secure_question"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:entries="@array/question_item"
                     android:visibility="@{fragment.isShowSecureQuestion() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toBottomOf="@id/editText_secure_code"
                     tools:visibility="visible" />
@@ -98,32 +111,40 @@
                     tools:visibility="visible" />
 
                 <!-- TODO  圆角按钮  -->
-                <Button
-                    android:id="@+id/button_reset"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="#f60"
-                    android:text="@string/reset_text"
-                    android:textColor="#FFF"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/switch_show_question"
-                    app:layout_constraintTop_toBottomOf="@+id/editText_secure_answer" />
+                    android:orientation="horizontal">
 
-                <Switch
-                    android:id="@+id/switch_show_question"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:background="#f60"
-                    android:text="@string/show_question"
-                    android:textColor="#FFF"
-                    app:layout_constraintBottom_toBottomOf="@id/button_reset"
-                    app:layout_constraintLeft_toRightOf="@id/button_reset"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/button_reset" />
+                    <Button
+                        android:id="@+id/button_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="#f60"
+                        android:text="@string/reset_text"
+                        android:textColor="#FFF"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/switch_show_question"
+                        app:layout_constraintTop_toBottomOf="@+id/editText_secure_answer" />
+
+                    <Switch
+                        android:id="@+id/switch_show_question"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:background="#f60"
+                        android:text="@string/show_question"
+                        android:textColor="#FFF"
+                        app:layout_constraintBottom_toBottomOf="@id/button_reset"
+                        app:layout_constraintLeft_toRightOf="@id/button_reset"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/button_reset" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

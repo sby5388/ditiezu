@@ -48,7 +48,7 @@ public class DetailTool {
         System.out.println(size);
         final Element originElement = mainElements.get(0);
         handleOrigin(originElement);
-        if (size < 1) {
+        if (size < 2) {
             System.err.println("没有回复");
             return;
         }
